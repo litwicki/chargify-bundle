@@ -1,0 +1,3 @@
+chargify:
+    path: /
+    defaults: { _controller: ChargifyBundle:Default:index }

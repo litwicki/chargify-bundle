@@ -1,0 +1,85 @@
+{% extends 'ChargifyBundle:Default:base.html.twig' %}
+
+{% block body -%}
+
+  <div class="page-header">
+    <span class="pull-right badge small">Version 1.0.0</span>
+    <h1>Chargify API Dashboard</h1>
+  </div>
+
+  <div class="clearfix">
+
+    <div class="col-sm-6">
+      <table class="table table-hover table-responsive">
+
+        <caption>API Parameters</caption>
+        <tr>
+          <th>Mode</th>
+          <td>{% if api.test_mode == 1 %}<strong style="color: red;">Test Mode</strong>{% else %}<strong style="color:green;">Production</strong>{% endif %}</td>
+        </tr>
+
+        <tr>
+          <th>Domain</th>
+          <td>{{ api.domain }}</td>
+        </tr>
+
+        <tr>
+          <th>Api Key</th>
+          <td>{{ api.api_key }}</td>
+        </tr>
+
+        <tr>
+          <th>Api Shared Key</th>
+          <td>{{ api.shared_key }}</td>
+        </tr>
+
+        <tr>
+          <th>Api Id</th>
+          <td>{{ api.api_id }}</td>
+        </tr>
+
+        <tr>
+          <th>Api Secret</th>
+          <td>{{ api.api_secret }}</td>
+        </tr>
+
+        <tr>
+          <th>Api Password</th>
+          <td>{{ api.api_password }}</td>
+        </tr>
+
+        <tr>
+          <th>Data Format</th>
+          <td></td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="col-sm-6">
+      <table class="table table-hover table-responsive">
+        <caption>API Statistics for <strong>{{ api.domain }}</strong></caption>
+        {% for key,value in stats %}
+          {% if value is iterable %}
+            <tr>
+              <th colspan="2">{{ key|capitalize }}</th>
+            </tr>
+            {% for k,v in value %}
+              <tr class="small">
+                <th>{{ k|replace({'_': ' '})|capitalize }}</th>
+                <td>{{ v }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <th>{{ key|replace({'_': ' '})|capitalize }}</th>
+              <td>{{ value }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+
+  </div>
+
+{% endblock %}
