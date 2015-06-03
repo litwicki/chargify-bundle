@@ -25,9 +25,8 @@ class SubscriptionHandler extends ChargifyHandler
                 $subscription_id
             );
 
-            $response = $this->request($uri, 'POST', $this->entityToPostData($entity));
-            $data = $this->formatResponse($response);
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Refund', $this->format());
 
         }
         catch (\Exception $e) {
@@ -95,11 +94,8 @@ class SubscriptionHandler extends ChargifyHandler
 
             $uri = sprintf('/subscriptions');
 
-            $response = $this->request($uri, 'POST', $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -120,10 +116,7 @@ class SubscriptionHandler extends ChargifyHandler
             $uri = sprintf('/subscriptions/%s', $id);
 
             $response = $this->request($uri);
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues(new Subscription(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -146,7 +139,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'DELETE');
-            return $this->formatResponse($response);
+            return $this->responseToArray($response);
 
         }
         catch (\Exception $e) {
@@ -186,11 +179,8 @@ class SubscriptionHandler extends ChargifyHandler
 
             $entity->setCancelAtEndOfPeriod(true);
 
-            $response = $this->request($uri, 'PUT', $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -220,10 +210,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'PUT', $this->postData($options));
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -251,10 +238,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'PUT');
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -332,7 +316,7 @@ class SubscriptionHandler extends ChargifyHandler
 
             $response = $this->request($uri, 'DELETE');
 
-            return $this->formatResponse($response);
+            return $this->responseToArray($response);
 
         }
         catch (\Exception $e) {

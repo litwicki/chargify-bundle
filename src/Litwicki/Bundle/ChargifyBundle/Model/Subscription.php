@@ -2,6 +2,9 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model;
 
+use Litwicki\Bundle\ChargifyBundle\Model\Customer;
+use Litwicki\Bundle\ChargifyBundle\Model\PaymentProfile;
+
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyModel;
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
 
@@ -97,6 +100,11 @@ class Subscription extends ChargifyModel implements ChargifyInterface
      * subscription via the API as credit_card > id or bank_account > id)
      */
     protected $payment_profile_id;
+
+    /**
+     * @type \Litwicki\Bundle\ChargifyBundle\Model\PaymentProfile
+     */
+    protected $payment_profile;
 
     /**
      * @type mixed
@@ -770,11 +778,26 @@ class Subscription extends ChargifyModel implements ChargifyInterface
     }
 
     /**
-     * @param Customer $customer
+     * @param \Litwicki\Bundle\ChargifyBundle\Model\Customer $customer
      */
-    public function setCustomer($customer)
+    public function setCustomer(Customer $customer)
     {
+
         $this->customer = $customer;
+
+        /**
+         * Convert the Customer object to the customer_attributes array.
+         * Unless this is an existing object, then simply pass $customer_id
+         */
+        if($customer->getId()) {
+            $this->customer_id = $customer->getId();
+        }
+        else {
+
+
+
+        }
+
     }
 
     /**
@@ -791,6 +814,17 @@ class Subscription extends ChargifyModel implements ChargifyInterface
     public function setPaymentProfileId($payment_profile_id)
     {
         $this->payment_profile_id = $payment_profile_id;
+    }
+
+    /**
+     * @param \Litwicki\Bundle\ChargifyBundle\Model\PaymentProfile $payment_profile
+     */
+    public function setPaymentProfile(PaymentProfile $payment_profile)
+    {
+        /**
+         * Convert the PaymentProfile to the payment_profile_attributes array.
+         * Unless this is an existing object, then simply pass $payment_profile_id
+         */
     }
 
     /**

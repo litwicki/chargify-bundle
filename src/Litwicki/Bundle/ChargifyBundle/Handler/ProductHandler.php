@@ -48,8 +48,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            $data = $this->formatResponse($response);
-            return $this->assignValues(new Product(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -73,8 +72,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            $data = $this->formatResponse($response);
-            return $this->assignValues(new Product(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -98,11 +96,8 @@ class ProductHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            $response = $this->request($uri, $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues(new Product(), $data);
+            $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
 
         }
         catch (\Exception $e) {

@@ -3,6 +3,8 @@
 namespace Litwicki\Bundle\ChargifyBundle\Services;
 
 use Litwicki\Common\cURL;
+use Litwicki\Common\Common;
+
 use Litwicki\Bundle\ChargifyBundle\Model\Statement;
 use Litwicki\Bundle\ChargifyBundle\Model\Subscription;
 
@@ -16,6 +18,8 @@ class ChargifyHandler
     private $api_key;
     private $format;
 
+    protected $serializer;
+
     /**
      * @param $domain
      * @param $api_id
@@ -24,6 +28,7 @@ class ChargifyHandler
      * @param $api_key
      * @param $format
      * @param $test_mode
+     * @param $serializer
      *
      * arguments: [
      *   "%chargify.domain%",
@@ -37,7 +42,7 @@ class ChargifyHandler
      * ]
      *
      */
-    public function __construct($domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode)
+    public function __construct($domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode, $serializer)
     {
         $this->domain = $domain;
         $this->api_id = $api_id;
@@ -47,6 +52,17 @@ class ChargifyHandler
         $this->shared_key = $shared_key;
         $this->format = $format;
         $this->test_mode = $test_mode;
+        $this->serializer = $serializer;
+    }
+
+    public function serializer()
+    {
+        return $this->serializer;
+    }
+
+    public function format()
+    {
+        return $this->format;
     }
 
     /**
@@ -159,191 +175,6 @@ class ChargifyHandler
     }
 
     /**
-     * @param $curl
-     * @throws \Exception
-     */
-    public function formatResponse($curl)
-    {
-        try {
-
-            if($this->format == 'json') {
-                $response = $curl->response;
-                $item = json_decode($response, true);
-            }
-            elseif($this->format == 'xml') {
-                $response = $curl->response;
-                $json = json_encode($response);
-                $item = json_decode($json, true);
-            }
-            else {
-                $item = $curl->response;
-            }
-
-            return $item;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Convert an entity to a json object.
-     *
-     * @param $entity
-     *
-     * @throws \Exception
-     */
-    public function entityToJson($entity)
-    {
-
-        try {
-
-            $data = $this->entityToArray($entity);
-
-            $json = json_encode($data);
-
-            return $json;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-
-    }
-
-    /**
-     * @param $entity
-     *
-     * @throws \Exception
-     */
-    public function entityToXml($entity)
-    {
-        try {
-
-            $data = $this->entityToArray($entity);
-
-            $root = $entity->getXmlRootName();
-
-            $xml = new \SimpleXMLElement($root);
-
-            array_walk_recursive($data, array ($xml, 'addChild'));
-            return $xml->asXml();
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Convert an entity to an associative array.
-     *
-     * @param $entity
-     *
-     * @throws \Exception
-     */
-    public function entityToArray($entity)
-    {
-        try {
-
-            $obj = new \ReflectionClass($entity);
-
-            $properties = $obj->getProperties(\ReflectionProperty::IS_PROTECTED);
-
-            $data = array();
-            $item = array();
-
-            foreach($properties as $property) {
-
-                $field = $property->name;
-
-                $getter = ucwords($field);
-                $getter = str_replace('_','',$getter);
-                $getter = sprintf('get%s', $getter);
-
-                if(method_exists($entity, $getter)) {
-                    if(!is_null($entity->$getter())) {
-                        $data[$field] = $entity->$getter();
-                    }
-                }
-
-            }
-
-            $class = new \ReflectionClass($entity);
-
-            $objectName = $this->decamelize($class->getShortName());
-
-            $item = array(
-                $objectName => $data
-            );
-
-            return $item;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param $string
-     *
-     * @throws \Exception
-     */
-    public function stringToArray($string)
-    {
-        try {
-
-            if($this->format == 'json') {
-                $array = json_decode($string, true);
-            }
-            else {
-                $json = json_encode($string);
-                $array = json_decode($json, true);
-            }
-
-            return $array;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Assign the response values to the entity itself.
-     *
-     * @param $entity
-     * @param $data
-     *
-     * @throws \Exception
-     */
-    public function assignValues($entity, $data)
-    {
-        try {
-
-            foreach($data as $key => $value) {
-
-                $setter = ucwords($key);
-                $setter = str_replace('_','',$setter);
-                $setter = sprintf('set%s', $setter);
-
-                if(method_exists($entity, $setter) && !is_null($value)) {
-                    $entity->$setter($value);
-                }
-
-            }
-
-            return $entity;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
      * Convert an Array to JSON or XML string
      *
      * @param $data
@@ -375,11 +206,11 @@ class ChargifyHandler
      */
     public function entityToPostData($entity)
     {
-        if($this->format == 'json') {
-            return $this->entityToJson($entity);
+        try {
+            return $this->serializer->serialize($entity, $this->format);
         }
-        else {
-            return $this->entityToXml($entity);
+        catch(\Exception $e) {
+            throw $e;
         }
     }
 
@@ -431,16 +262,13 @@ class ChargifyHandler
      */
     public function fetchMultiple($uri, $class, $query = array())
     {
-        $response = $this->request($uri, 'GET', array(), $query);
-
-        $items = $this->formatResponse($response);
-
-        foreach($items as $item) {
-            $data = reset($item);
-            $entities[$data['id']] = $this->assignValues(new $class(), $data);
+        try {
+            $response = $this->request($uri, 'GET', array(), $query);
+            return $this->serializer()->deserialize($response, $class, $this->format());
         }
-
-        return $entities;
+        catch(\Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -456,7 +284,7 @@ class ChargifyHandler
         try {
 
             $request = $this->request('/stats');
-            $response = $this->formatResponse($request);
+            $response = $this->responseToArray($request);
             return $response;
 
         }
@@ -491,7 +319,7 @@ class ChargifyHandler
                 $response = $this->request($uri, 'GET', null, http_build_query($query));
             }
 
-            return $this->formatResponse($response);
+            return $this->responseToArray($response);
 
         }
         catch (\Exception $e) {
@@ -512,11 +340,37 @@ class ChargifyHandler
 
             $uri = sprintf('/statements/%s', $id);
             $response = $this->request($uri);
-            $data = $this->formatResponse($response);
-            return $this->assignValues(new Statement(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Statement', $this->format());
 
         }
         catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Convert the response string to an array.
+     *
+     * @param $response
+     *
+     * @throws \Exception
+     */
+    public function responseToArray($response)
+    {
+        try {
+
+            if($this->format == 'json') {
+                $array = json_decode($response, true);
+            }
+            else {
+                $json = json_encode($response);
+                $array = json_decode($json, true);
+            }
+
+            return $array;
+
+        }
+        catch(\Exception $e) {
             throw $e;
         }
     }

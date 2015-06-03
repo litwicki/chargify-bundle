@@ -4,6 +4,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Component;
+use Litwicki\Bundle\ChargifyBundle\Model\Allocation;
 
 class ComponentHandler extends ChargifyHandler
 {
@@ -23,7 +24,7 @@ class ComponentHandler extends ChargifyHandler
                 $subscription_id
             );
 
-            return $this->fetchMultiple($uri, '\ChargifyBundle\Model\Component');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Component');
 
         }
         catch (\Exception $e) {
@@ -47,10 +48,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues(new Component(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -74,11 +72,8 @@ class ComponentHandler extends ChargifyHandler
                 $plural_kind
             );
 
-            $response = $this->request($uri, 'POST', $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -101,7 +96,7 @@ class ComponentHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            return $this->fetchMultiple($uri, '\ChargifyBundle\Model\Component');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Component');
 
         }
         catch (\Exception $e) {
@@ -127,10 +122,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues(new Component(), $data);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -139,7 +131,7 @@ class ComponentHandler extends ChargifyHandler
     }
 
     /**
-     * @param \Litwicki\Bundle\ChargifyBundle\Handler\Component $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Model\Component $entity
      *
      * @throws \Exception
      */
@@ -152,10 +144,8 @@ class ComponentHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, $this->entityToPostData($entity));
-            $data = $this->formatResponse($response);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -179,11 +169,8 @@ class ComponentHandler extends ChargifyHandler
                 $entity->getComponentId()
             );
 
-            $result = $this->request($uri, 'POST', $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($result);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
 
         }
         catch(\Exception $e) {
@@ -208,9 +195,9 @@ class ComponentHandler extends ChargifyHandler
                     $entity->getSubscriptionId()
                 );
 
-                $result = $this->request($uri, 'POST', $this->entityToPostData($entity));
+                $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-                $responses[] = $this->getResponse($result);
+                $responses[] = $this->getResponse($response);
 
             }
 

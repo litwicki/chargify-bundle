@@ -21,11 +21,9 @@ class CouponHandler extends ChargifyHandler
 
             $uri = sprintf('/coupons');
 
-            $request = $this->request($uri, 'POST', $this->entityToPostData($entity));
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-            $response = $this->formatResponse($request);
-
-            return $this->assignValues($entity, $response);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $this->format());
 
         }
         catch (\Exception $e) {
@@ -48,9 +46,8 @@ class CouponHandler extends ChargifyHandler
                 $id
             );
 
-            $request = $this->request($uri);
-            $response = $this->formatResponse($request);
-            return $this->assignValues(new Coupon(), $response);
+            $response = $this->request($uri);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $this->format());
 
         }
         catch (\Exception $e) {
@@ -72,7 +69,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('code' => $code);
 
-            return $this->fetchMultiple($uri, '\ChargifyBundle\Model\Coupon', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $query);
 
         }
         catch (\Exception $e) {
@@ -94,7 +91,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('product_family_id' => $product_family_id);
 
-            return $this->fetchMultiple($uri, '\ChargifyBundle\Model\Coupon', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $query);
 
         }
         catch (\Exception $e) {
@@ -118,7 +115,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $request = $this->request($uri, 'PUT', $this->entityToPostData($entity));
-            $response = $this->formatResponse($request);
+            $response = $this->responseToArray($request);
             return $this->assignValues($entity, $response);
 
         }
@@ -142,8 +139,8 @@ class CouponHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'DELETE', $this->entityToPostData($entity));
-            $response = $this->formatResponse($request);
+            $request = $this->request($uri, 'DELETE', $this->serializer()->serialize($entity, $this->format()));
+            $response = $this->responseToArray($request);
 
             return $response;
 
@@ -183,7 +180,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $request = $this->request($uri);
-            $data = $this->formatResponse($request);
+            $data = $this->responseToArray($request);
 
             return $data;
 
@@ -220,7 +217,7 @@ class CouponHandler extends ChargifyHandler
 
             $request = $this->request($uri, 'GET', null, $query);
 
-            return $this->formatResponse($request);
+            return $this->responseToArray($request);
 
         }
         catch (\Exception $e) {
@@ -245,7 +242,7 @@ class CouponHandler extends ChargifyHandler
 
             $request = $this->request($uri);
 
-            return $this->formatResponse($request);
+            return $this->responseToArray($request);
 
         }
         catch(\Exception $e) {
@@ -270,7 +267,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $request = $this->request($uri, 'POST', $codes);
-            $response = $this->formatResponse($request);
+            $response = $this->responseToArray($request);
 
             return $response;
 

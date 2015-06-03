@@ -20,11 +20,8 @@ class ChargeHandler extends ChargifyHandler
                 $entity->getSubscriptionId()
             );
 
-            $result = $this->request($uri, 'POST', $this->entityToPostData($entity));
-
-            $response = $this->formatResponse($result);
-
-            return $this->assignValues($entity, $response);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Charge', $this->format());
 
         }
         catch(\Exception $e) {

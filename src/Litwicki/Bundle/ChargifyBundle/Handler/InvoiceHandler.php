@@ -22,8 +22,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
     {
         try {
             $uri = 'events';
-            $items = $this->fetchMultiple($uri, 'ChargifyBundle\Model\Invoice');
-            return $items;
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Invoice');
         }
         catch(\Exception $e) {
             throw $e;
@@ -45,9 +44,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $id
             );
 
-            $request = $this->request($uri);
-            $response = $this->formatResponse($request);
-            return $this->assignValues(new Invoice(), $response);
+            $response = $this->request($uri);
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Invoice', $this->format());
 
         }
         catch(\Exception $e) {
@@ -58,7 +56,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
     /**
      * Send an Invoice payment.
      *
-     * @param \ChargifyBundle\Handler\Invoice $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Handler\Invoice $entity
      * @param $data
      *
      * @throws \Exception
@@ -71,9 +69,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'POST', $this->postData($data));
-            $response = $this->formatResponse($request);
-            return $this->assignValues(new Payment(), $response);
+            $response = $this->request($uri, 'POST', $this->postData($data));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Payment', $this->format());
 
         }
         catch (\Exception $e) {
@@ -84,7 +81,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
     /**
      * Credit (Adjust) an invoice.
      *
-     * @param \ChargifyBundle\Handler\Invoice $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Handler\Invoice $entity
      * @param $data
      *
      * @throws \Exception
@@ -97,9 +94,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'POST', $this->postData($data));
-            $response = $this->formatResponse($request);
-            return $this->assignValues(new Adjustment($entity->getSubscriptionId()), $response);
+            $response = $this->request($uri, 'POST', $this->postData($data));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Adjustment', $this->format());
 
         }
         catch (\Exception $e) {
@@ -110,7 +106,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
     /**
      * Apply a Charge to an Invoice.
      *
-     * @param \ChargifyBundle\Handler\Invoice $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Handler\Invoice $entity
      * @param $data
      *
      * @throws \Exception
@@ -123,9 +119,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'POST', $this->postData($data));
-            $response = $this->formatResponse($request);
-            return $this->assignValues(new Charge($entity->getSubscriptionId()), $response);
+            $response = $this->request($uri, 'POST', $this->postData($data));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Charge', $this->format());
 
         }
         catch (\Exception $e) {

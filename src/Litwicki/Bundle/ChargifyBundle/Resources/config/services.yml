@@ -2,7 +2,7 @@ services:
 
     chargify.handler:
         class: Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.adjustment:
         class: Litwicki\Bundle\ChargifyBundle\Handler\AdjustmentHandler

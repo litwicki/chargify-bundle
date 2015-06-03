@@ -25,8 +25,7 @@ abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerIn
         try {
             $uri = 'events';
             $query = http_build_query($options);
-            $items = $this->fetchMultiple($uri, 'ChargifyBundle\Model\Event', $query);
-            return $items;
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Event', $query);
         }
         catch(\Exception $e) {
             throw $e;

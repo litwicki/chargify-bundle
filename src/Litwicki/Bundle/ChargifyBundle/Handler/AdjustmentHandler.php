@@ -23,11 +23,8 @@ class AdjustmentHandler extends ChargifyHandler
                 $entity->getSubscriptionId()
             );
 
-            $result = $this->request($uri, 'POST', $this->entityToPostData($entity));
-
-            $data = $this->formatResponse($result);
-
-            return $this->assignValues($entity, $data);
+            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Adjustment', $this->format());
 
         }
         catch(\Exception $e) {
