@@ -8,6 +8,8 @@ use Litwicki\Bundle\ChargifyBundle\Model\PaymentProfile;
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyModel;
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
 
+use Symfony\Component\Serializer;
+
 class Subscription extends ChargifyModel implements ChargifyInterface
 {
 
@@ -793,9 +795,9 @@ class Subscription extends ChargifyModel implements ChargifyInterface
             $this->customer_id = $customer->getId();
         }
         else {
-
-
-
+            $serializer = new Serializer();
+            $json = $serializer->serialize($customer, 'json');
+            $this->customer_attributes = json_decode($json, true);
         }
 
     }
@@ -825,6 +827,20 @@ class Subscription extends ChargifyModel implements ChargifyInterface
          * Convert the PaymentProfile to the payment_profile_attributes array.
          * Unless this is an existing object, then simply pass $payment_profile_id
          */
+        $this->payment_profile = $payment_profile;
+
+        /**
+         * Convert the Customer object to the customer_attributes array.
+         * Unless this is an existing object, then simply pass $customer_id
+         */
+        if($payment_profile->getId()) {
+            $this->payment_profile_id = $payment_profile->getId();
+        }
+        else {
+            $serializer = new Serializer();
+            $json = $serializer->serialize($payment_profile, 'json');
+            $this->payment_profile_attributes = json_decode($json, true);
+        }
     }
 
     /**
