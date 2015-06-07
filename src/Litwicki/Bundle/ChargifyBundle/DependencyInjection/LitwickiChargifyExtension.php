@@ -12,14 +12,14 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ChargifyExtension extends Extension
+class LitwickiChargifyExtension extends Extension
 {
     /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
+        $configuration = new LitwickiChargifyConfiguration();
         $config = $this->processConfiguration($configuration, $configs);
 
         $configs = reset($configs);

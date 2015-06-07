@@ -1,11 +1,20 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Model;
-
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyModel;
+namespace Litwicki\Bundle\ChargifyBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Litwicki\Common;
+use Litwicki\Bundle\ChargifyBundle\Services\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
 
-class Webhook extends ChargifyModel implements ChargifyInterface
+/**
+ * Class Webhook
+ *
+ * @package Litwicki\Bundle\ChargifyBundle\Entity
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @orm\Table(name="ChargifyWebhook")
+ */
+class Webhook extends ChargifyEntity implements ChargifyInterface
 {
     /**
      * @type int

@@ -7,6 +7,7 @@ use Litwicki\Common\Common;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Statement;
 use Litwicki\Bundle\ChargifyBundle\Model\Subscription;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ChargifyHandler
 {
@@ -371,6 +372,33 @@ class ChargifyHandler
 
         }
         catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * The “Clear Sites” API is method of allowing merchants to clear customers and subscriptions or all data from a site in TEST mode only.
+     *
+     * @param $cleanup_scope
+     *          Optional, all or customers, the scope of cleanup of the site to be performed. Default is all.
+     *
+     * @throws \Exception
+     */
+    private function clearSiteData($cleanup_scope)
+    {
+        try {
+
+            if($this->test_mode) {
+                $uri = '/sites/clear_data';
+                $response = $this->request($uri, 'POST', null, http_build_query(array('cleanup_scope' => $cleanup_scope)));
+                return $this->responseToArray($response);
+            }
+            else {
+                throw new AccessDeniedException('Cannot clear Site Data unless in TEST MODE!');
+            }
+
+        }
+        catch (\Exception $e) {
             throw $e;
         }
     }
