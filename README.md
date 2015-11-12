@@ -74,4 +74,4 @@ Documentation available at [http://jakelitwicki.com/doc/chargify-bundle/](http:/
 
 ## Need Help?
 
-If you have any questions or need help integrating Chargify into your app, contact me via [http://twitter.com/jakelitwicki](@jakelitwicki) or at [http://jakelitwicki.com](jakelitwicki.com) if you would like professional help.
+If you have any questions or need help integrating Chargify into your app, contact me via [@jakelitwicki](http://twitter.com/jakelitwicki) or at [jakelitwicki.com](http://jakelitwicki.com) if you would like professional help.
