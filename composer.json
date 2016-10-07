@@ -1,66 +1,46 @@
 {
-    "name": "litwicki/chargify-bundle",
-    "description": "Chargify API Integration Bundle",
-    "license": "MIT",
-    "type": "project",
-    "autoload": {
-        "psr-0": {
-            "Litwicki": "src/",
-            "SymfonyStandard": "app/"
-        }
-    },
+    "name" : "litwicki/chargify-bundle",
+    "description" : "Chargify billing service integration",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "Jake Litwicki",
+        "email" : "jake.litwicki@gmail.com"
+    }],
+    "keywords" : [
+        "Chargify billing"
+    ],
+    "license" : [
+        "MIT"
+    ],
     "require": {
-        "php": ">5.3",
-        "symfony/symfony": "2.7.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "doctrine/doctrine-bundle": "~1.2",
-        "doctrine/migrations": "dev-master",
-        "doctrine/doctrine-migrations-bundle": "dev-master",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "twig/extensions": "~1.0",
-        "symfony/assetic-bundle": "~2.3",
-        "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0,>=3.0.12",
-        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0",
-        "litwicki/common": "dev-master"
+        "php": ">=7",
+        "symfony/symfony": "3.*",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "incenteev/composer-parameter-handler": "^2.0",
+        "twig/twig": "^1.24",
+        "jms/serializer": "^1.0.0",
+        "jms/serializer-bundle": "^1.1"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "^3.0",
+        "phpunit/phpunit": "5.0.*",
+        "symfony/phpunit-bridge": "^2.7",
+        "symfony/var-dumper": "^3.0",
+        "apoutchika/loremipsum-bundle": "^1.0",
+        "fzaninotto/faker": "^1.6",
+        "ddelnano/dredd-hooks-php": "^1.1"
     },
-    "scripts": {
-        "post-root-package-install": [
-            "SymfonyStandard\\Composer::hookRootPackageInstall"
-        ],
-        "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
-        ],
-        "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
-        ]
+    "autoload" : {
+        "psr-0" : {
+            "Litwicki\\Bundle\\ChargifyBundle" : ""
+        }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "extra": {
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+    "target-dir" : "Litwicki/Bundle/ChargifyBundle",
+    "repositories" : [{
+    }],
+    "extra" : {
+    "branch-alias" : {
+            "dev-master" : "dev"
         }
     }
 }
