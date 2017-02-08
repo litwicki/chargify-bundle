@@ -5,7 +5,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Handler;
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class AdjustmentHandler extends ChargifyHandler
+class WebhookHandler extends ChargifyHandler
 {
 
     /**
@@ -39,9 +39,13 @@ class AdjustmentHandler extends ChargifyHandler
 
     /**
      * Replay Webhooks for a Site
-     * Posting to the replay endpoint does not immediate resend the webhooks. They are added to the background job queue and should be resent momentarily.
+     * Posting to the replay endpoint does not immediate resend the webhooks.
+     * They are added to the background job queue and should be resent
+     * momentarily.
+     *
      * @param array $ids
      *
+     * @return mixed
      * @throws \Exception
      */
     public function replay($ids)

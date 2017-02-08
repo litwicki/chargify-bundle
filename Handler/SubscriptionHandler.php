@@ -2,9 +2,28 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
+use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
+use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
+use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
+use Litwicki\Bundle\ChargifyBundle\Entity\Component;
+use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
+use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
+use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
+use Litwicki\Bundle\ChargifyBundle\Entity\Event;
+use Litwicki\Bundle\ChargifyBundle\Entity\Invoice;
+use Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink;
+use Litwicki\Bundle\ChargifyBundle\Entity\Migration;
+use Litwicki\Bundle\ChargifyBundle\Entity\Payment;
+use Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile;
+use Litwicki\Bundle\ChargifyBundle\Entity\Product;
 use Litwicki\Bundle\ChargifyBundle\Entity\Refund;
+use Litwicki\Bundle\ChargifyBundle\Entity\RenewalPreview;
+use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
+use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
+use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
+use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
+
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
 
 class SubscriptionHandler extends ChargifyHandler
 {
@@ -35,11 +54,13 @@ class SubscriptionHandler extends ChargifyHandler
     }
 
     /**
-     * Renewal Preview is an object representing a subscription’s next assessment.
-     * You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
+     * Renewal Preview is an object representing a subscription’s next
+     * assessment. You can retrieve it to see a snapshot of how much your
+     * customer will be charged on their next renewal.
      *
      * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function getRenewalPreview(Subscription $entity)
@@ -63,6 +84,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function getStatements(Subscription $entity)
@@ -129,6 +151,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function delete(Subscription $entity)
@@ -152,6 +175,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function cancel(Subscription $entity)
@@ -251,6 +275,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @param array $query
      *
+     * @return mixed
      * @throws \Exception
      */
     public function findAll($query = array())
@@ -273,6 +298,7 @@ class SubscriptionHandler extends ChargifyHandler
      * @param \Litwicki\Bundle\ChargifyBundle\Handler\Customer $entity
      * @param array $query
      *
+     * @return mixed
      * @throws \Exception
      */
     public function findByCustomer(Customer $entity, $query = array())
@@ -292,17 +318,23 @@ class SubscriptionHandler extends ChargifyHandler
     }
 
     /**
-     * This will delete a payment profile belonging to the customer on the subscription.
-     * Please note that if the customer has multiple subscriptions, the payment profile will be removed from all of them.
+     * This will delete a payment profile belonging to the customer on the
+     * subscription. Please note that if the customer has multiple
+     * subscriptions, the payment profile will be removed from all of them.
      *
-     * Please note that if you delete the default payment profile for a subscription, there is currently no way to designate a
-     * different payment profile as the default via the API. You may want to Update the subscription instead.
-     * To establish a new default payment profile after it has been deleted, either prompt the user to enter a card in the
-     * billing portal or on the self-service page, or visit the Payment Details tab on the subscription in the Admin UI and use
-     * the “Add New Credit Card” or “Make Active Payment Method” link, (depending on whether there are other cards present.)
+     * Please note that if you delete the default payment profile for a
+     * subscription, there is currently no way to designate a different payment
+     * profile as the default via the API. You may want to Update the
+     * subscription instead. To establish a new default payment profile after
+     * it has been deleted, either prompt the user to enter a card in the
+     * billing portal or on the self-service page, or visit the Payment Details
+     * tab on the subscription in the Admin UI and use the “Add New Credit
+     * Card” or “Make Active Payment Method” link, (depending on whether there
+     * are other cards present.)
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Handler\PaymentProfile $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function deletePaymentProfile(PaymentProfile $entity)
