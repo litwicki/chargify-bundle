@@ -1,6 +1,6 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Services;
+namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
 use Litwicki\Common\cURL;
 use Litwicki\Common\Common;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Services;
+namespace Litwicki\Bundle\ChargifyBundle\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 
 class ChargifyEntity
@@ -52,6 +52,9 @@ class ChargifyEntity
     /**
      * @param $method
      * @param $args
+     *
+     * @return mixed
+     * @throws \Exception
      */
     public function __call($method, $args)
     {
@@ -71,7 +74,7 @@ class ChargifyEntity
             }
         }
 
-        throw new ChargifyMethodNotAccessibleException(sprintf(
+        throw new \Exception(sprintf(
             'Attempt to call method %s which does not exist on class %s.', $method, get_class($this)
         ));
     }

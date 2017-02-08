@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Webhook;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
 class AdjustmentHandler extends ChargifyHandler
 {
@@ -14,7 +14,7 @@ class AdjustmentHandler extends ChargifyHandler
      * @param array $options
      *
      * @throws \Exception
-     * @returns array of \Litwicki\Bundle\ChargifyBundle\Model\Webhook
+     * @returns array of \Litwicki\Bundle\ChargifyBundle\Entity\Webhook
      */
     public function findAll($options = array())
     {

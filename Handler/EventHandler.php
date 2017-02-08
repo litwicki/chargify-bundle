@@ -2,11 +2,11 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandlerInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Event;
-use Litwicki\Bundle\ChargifyBundle\Model\Subscription;
+use Litwicki\Bundle\ChargifyBundle\Entity\Event;
+use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 
 abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerInterface
 {
@@ -25,7 +25,7 @@ abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerIn
         try {
             $uri = 'events';
             $query = http_build_query($options);
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Event', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Event', $query);
         }
         catch(\Exception $e) {
             throw $e;

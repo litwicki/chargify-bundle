@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Product;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Product;
 
 class ProductHandler extends ChargifyHandler
 {
@@ -24,7 +24,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $response);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $response);
 
         }
         catch (\Exception $e) {
@@ -48,7 +48,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -72,7 +72,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -83,7 +83,7 @@ class ProductHandler extends ChargifyHandler
     /**
      * Create a Product.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Product $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Product $entity
      * @param $product_family_id
      *
      * @throws \Exception
@@ -97,7 +97,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Product', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {

@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Coupon;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 
 class CouponHandler extends ChargifyHandler
 {
@@ -11,7 +11,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Create a new Coupon
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      */
@@ -23,7 +23,7 @@ class CouponHandler extends ChargifyHandler
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
 
         }
         catch (\Exception $e) {
@@ -47,7 +47,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
 
         }
         catch (\Exception $e) {
@@ -69,7 +69,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('code' => $code);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $query);
 
         }
         catch (\Exception $e) {
@@ -91,7 +91,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('product_family_id' => $product_family_id);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Coupon', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $query);
 
         }
         catch (\Exception $e) {
@@ -102,7 +102,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Save/Update a Coupon.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      */
@@ -127,7 +127,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Archive a Coupon.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      */
@@ -153,7 +153,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Alias for archive()
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      */
@@ -166,7 +166,7 @@ class CouponHandler extends ChargifyHandler
      * Fetch usage for a coupon by id.
      * @see https://docs.chargify.com/api-coupons#api-coupon-usage
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      * @return void $data
@@ -195,7 +195,7 @@ class CouponHandler extends ChargifyHandler
      * This method is useful for validating coupon codes that are entered by a customer.
      * If the coupon is found and is valid, the coupon will be returned with a 200 status code.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      * @return string $response
@@ -228,7 +228,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Fetch an array of codes associated with a coupon.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      *
      * @throws \Exception
      */
@@ -253,7 +253,7 @@ class CouponHandler extends ChargifyHandler
     /**
      * Create additional sub code(s).
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Coupon $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
      * @param array $codes
      *
      * @throws \Exception

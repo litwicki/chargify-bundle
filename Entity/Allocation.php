@@ -10,8 +10,8 @@ namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 
 /**

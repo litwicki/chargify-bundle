@@ -2,9 +2,9 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Component;
-use Litwicki\Bundle\ChargifyBundle\Model\Allocation;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Component;
+use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 
 class ComponentHandler extends ChargifyHandler
 {
@@ -24,7 +24,7 @@ class ComponentHandler extends ChargifyHandler
                 $subscription_id
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Component');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Component');
 
         }
         catch (\Exception $e) {
@@ -48,7 +48,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -57,7 +57,7 @@ class ComponentHandler extends ChargifyHandler
     }
 
     /**
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Component $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Component $entity
      * @param string $plural_kind
      *  options: metered_components, quantity_based_components, on_off_components
      *
@@ -73,7 +73,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -96,7 +96,7 @@ class ComponentHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Component');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Component');
 
         }
         catch (\Exception $e) {
@@ -122,7 +122,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -131,7 +131,7 @@ class ComponentHandler extends ChargifyHandler
     }
 
     /**
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Component $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Component $entity
      *
      * @throws \Exception
      */
@@ -145,7 +145,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -170,7 +170,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Component', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch(\Exception $e) {

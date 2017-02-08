@@ -7,8 +7,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

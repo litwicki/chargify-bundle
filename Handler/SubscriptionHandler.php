@@ -2,9 +2,9 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Subscription;
-use Litwicki\Bundle\ChargifyBundle\Model\Refund;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
+use Litwicki\Bundle\ChargifyBundle\Entity\Refund;
 
 class SubscriptionHandler extends ChargifyHandler
 {
@@ -12,7 +12,7 @@ class SubscriptionHandler extends ChargifyHandler
     /**
      * Refund a Subscription.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Refund $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Refund $entity
      * @param $subscription_id
      *
      * @throws \Exception
@@ -26,7 +26,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Refund', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Refund', $this->format());
 
         }
         catch (\Exception $e) {
@@ -38,7 +38,7 @@ class SubscriptionHandler extends ChargifyHandler
      * Renewal Preview is an object representing a subscription’s next assessment.
      * You can retrieve it to see a snapshot of how much your customer will be charged on their next renewal.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -50,7 +50,7 @@ class SubscriptionHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\RenewalPreview');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\RenewalPreview');
 
         }
         catch (\Exception $e) {
@@ -61,7 +61,7 @@ class SubscriptionHandler extends ChargifyHandler
     /**
      * Find all statements for a Subscription.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -73,7 +73,7 @@ class SubscriptionHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Statement');
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Statement');
 
         }
         catch (\Exception $e) {
@@ -84,7 +84,7 @@ class SubscriptionHandler extends ChargifyHandler
     /**
      * Create a Subscription.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -95,7 +95,7 @@ class SubscriptionHandler extends ChargifyHandler
             $uri = sprintf('/subscriptions');
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -116,7 +116,7 @@ class SubscriptionHandler extends ChargifyHandler
             $uri = sprintf('/subscriptions/%s', $id);
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -127,7 +127,7 @@ class SubscriptionHandler extends ChargifyHandler
     /**
      * Delete/Cancel a Subscription.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -150,7 +150,7 @@ class SubscriptionHandler extends ChargifyHandler
     /**
      * Alias for delete()
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -165,7 +165,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * Note, that you cannot set cancel_at_end_of_period at subscription creation.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -180,7 +180,7 @@ class SubscriptionHandler extends ChargifyHandler
             $entity->setCancelAtEndOfPeriod(true);
 
             $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -197,7 +197,7 @@ class SubscriptionHandler extends ChargifyHandler
      *   preserve_balance – Boolean, default ‘0’. If ‘1’ is passed, the existing subscription balance will NOT be cleared/reset before adding the additional reactivation charges.
      *   coupon_code – The coupon code to be applied during reactivation
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -210,7 +210,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'PUT', $this->postData($options));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -225,7 +225,7 @@ class SubscriptionHandler extends ChargifyHandler
      * If a subscription has a positive balance, this API call will issue a credit to the subscription for the outstanding balance.
      * This is particularly helpful if you want to reactivate a canceled subscription without charging the customer for their previously owed balance.
      *
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Subscription $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Subscription $entity
      *
      * @throws \Exception
      */
@@ -238,7 +238,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'PUT');
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
 
         }
         catch (\Exception $e) {
@@ -259,7 +259,7 @@ class SubscriptionHandler extends ChargifyHandler
 
             $uri = sprintf('/subscriptions');
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $query);
 
         }
         catch (\Exception $e) {
@@ -283,7 +283,7 @@ class SubscriptionHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Subscription', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $query);
 
         }
         catch (\Exception $e) {

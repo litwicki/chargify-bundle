@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Transaction;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 
 class TransactionHandler extends ChargifyHandler
 {
@@ -21,7 +21,7 @@ class TransactionHandler extends ChargifyHandler
      * page and per_page The page number and number of results used for pagination. By default results are paginated 20 per page.
      *
      * @throws \Exception
-     * @returns array of \Litwicki\Bundle\ChargifyBundle\Model\Transaction
+     * @returns array of \Litwicki\Bundle\ChargifyBundle\Entity\Transaction
      */
     public function findAll($options = array())
     {

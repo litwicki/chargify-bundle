@@ -6,8 +6,8 @@ use Litwicki\Common;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
 use Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
 
 use Symfony\Component\Serializer;
 

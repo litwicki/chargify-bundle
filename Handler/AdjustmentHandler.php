@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Adjustment;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 
 class AdjustmentHandler extends ChargifyHandler
 {
@@ -24,7 +24,7 @@ class AdjustmentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Adjustment', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment', $this->format());
 
         }
         catch(\Exception $e) {

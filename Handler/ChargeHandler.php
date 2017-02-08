@@ -2,8 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Charge;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
 
 class ChargeHandler extends ChargifyHandler
 {
@@ -21,7 +21,7 @@ class ChargeHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Charge', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge', $this->format());
 
         }
         catch(\Exception $e) {

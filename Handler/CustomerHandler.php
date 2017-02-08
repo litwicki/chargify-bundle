@@ -2,10 +2,10 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Services\ChargifyHandlerInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Customer;
+use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
 
 class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterface
 {
@@ -56,7 +56,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Customer', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -82,7 +82,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri);
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Customer', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
             return $entity;
 
@@ -108,7 +108,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri);
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Customer', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -128,7 +128,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             $uri = sprintf('/customers');
             $query = array('page' => $page, 'direction' => $sort);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Model\Customer', $query);
+            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $query);
 
         }
         catch(\Exception $e) {
@@ -153,7 +153,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Customer', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -186,7 +186,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
     }
 
     /**
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Customer $entity
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Customer $entity
      * @param bool $auto_invite
      *
      * @throws \Exception
@@ -215,7 +215,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
     }
 
     /**
-     * @param \Litwicki\Bundle\ChargifyBundle\Model\Customer $customer
+     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Customer $customer
      *
      * @throws \Exception
      */
@@ -228,7 +228,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             );
 
             $response = $this->request($uri, 'POST', $this->serialize()->serialize($customer, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\ManagementLink', $this->format());
+            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink', $this->format());
 
         }
         catch(\Exception $e) {
