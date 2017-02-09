@@ -27,108 +27,108 @@ class Event extends ChargifyEntity implements ChargifyInterface
     /**
      * Read only properties
      */
-    private $id;
+    protected $id;
 
     /**
      * @type
      */
-    private $key;
+    protected $key;
 
     /**
      * @type
      */
-    private $message;
+    protected $message;
 
     /**
      * @type
      */
-    private $subscription_id;
+    protected $subscription_id;
 
     /**
      * @type
      */
-    private $event_specific_date;
+    protected $event_specific_date;
 
     /**
      * @type
      */
-    private $created_at;
+    protected $created_at;
 
 
     /**
      * Read/Write properties.
      */
-    private $payment_success;
+    protected $payment_success;
 
     /**
      * @type
      */
-    private $payment_failure;
+    protected $payment_failure;
 
     /**
      * @type
      */
-    private $signup_success;
+    protected $signup_success;
 
     /**
      * @type
      */
-    private $signup_failure;
+    protected $signup_failure;
 
     /**
      * @type
      */
-    private $billing_date_change;
+    protected $billing_date_change;
 
     /**
      * @type
      */
-    private $renewal_success;
+    protected $renewal_success;
 
     /**
      * @type
      */
-    private $renewal_failure;
+    protected $renewal_failure;
 
     /**
      * @type
      */
-    private $subscription_state_change;
+    protected $subscription_state_change;
 
     /**
      * @type
      */
-    private $subscription_product_change;
+    protected $subscription_product_change;
 
     /**
      * @type
      */
-    private $expiring_card;
+    protected $expiring_card;
 
     /**
      * @type
      */
-    private $customer_update;
+    protected $customer_update;
 
     /**
      * @type
      */
-    private $renewal_success_recreated;
+    protected $renewal_success_recreated;
 
     /**
      * @type
      */
-    private $renewal_failure_recreated;
+    protected $renewal_failure_recreated;
 
     /**
      * @type
      */
-    private $payment_success_recreated;
+    protected $payment_success_recreated;
 
     /**
      * @type
      */
-    private $payment_failure_recreated;
+    protected $payment_failure_recreated;
 
 
     /**
@@ -138,12 +138,12 @@ class Event extends ChargifyEntity implements ChargifyInterface
     /**
      * @type
      */
-    private $zferral_revenue_post_success;
+    protected $zferral_revenue_post_success;
 
     /**
      * @type
      */
-    private $zferral_revenue_post_failure;
+    protected $zferral_revenue_post_failure;
 
     /**
      * @return mixed

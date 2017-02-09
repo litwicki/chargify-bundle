@@ -21,7 +21,7 @@ class Transaction extends ChargifyEntity implements ChargifyInterface
      * @type int
      *  The unique identifier for the Transaction
      */
-    private $id;
+    protected $id;
 
     /**
      * @type string
@@ -35,55 +35,55 @@ class Transaction extends ChargifyEntity implements ChargifyInterface
      * info
      * adjustment
      */
-    private $transaction_type;
+    protected $transaction_type;
 
     /**
      * @type int
      *  The amount in cents of the Transaction
      */
-    private $amount_in_cents;
+    protected $amount_in_cents;
 
     /**
      * @type datetime
      *  Timestamp indicating when the Transaction was created
      */
-    private $created_at;
+    protected $created_at;
 
     /**
      * @type int
      *  The initial balance on the subscription before the Transaction has been processed
      */
-    private $starting_balance_in_cents;
+    protected $starting_balance_in_cents;
 
     /**
      * @type int
      *  The remaining balance on the subscription after the Transaction has been processed
      */
-    private $ending_balance_in_cents;
+    protected $ending_balance_in_cents;
 
     /**
      * @type string
      *  A note about the Transaction
      */
-    private $memo;
+    protected $memo;
 
     /**
      * @type int
      *  The unique identifier for the associated Subscription
      */
-    private $subscription_id;
+    protected $subscription_id;
 
     /**
      * @type int
      * The unique identifier for the product associated with the Subscription
      */
-    private $product_id;
+    protected $product_id;
 
     /**
      * @type bool
      *  Whether or not the Transaction was successful
      */
-    private $success;
+    protected $success;
 
     /**
      * @type int
@@ -91,7 +91,7 @@ class Transaction extends ChargifyEntity implements ChargifyInterface
      * Will be null for all transaction types except for “Refund”. May be null even for Refunds. For partial refunds,
      * more than one Refund transaction may reference the same payment_id.
      */
-    private $payment_id;
+    protected $payment_id;
 
     /**
      * @type string
@@ -105,19 +105,19 @@ class Transaction extends ChargifyEntity implements ChargifyInterface
      * on_off_component: A charge from an on/off component allocation
      * tax: A calculated tax charge
      */
-    private $kind;
+    protected $kind;
 
     /**
      * @type int
      *  The transaction ID from the remote gateway (i.e. Authorize.Net), if one exists
      */
-    private $gateway_transaction_id;
+    protected $gateway_transaction_id;
 
     /**
      * @type int
      *  A gateway-specific identifier for the transaction, separate from the gateway_transaction_id:
      */
-    private $gateway_order_id;
+    protected $gateway_order_id;
 
     /**
      * @return int

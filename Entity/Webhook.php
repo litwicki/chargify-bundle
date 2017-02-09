@@ -28,63 +28,63 @@ class Webhook extends ChargifyEntity implements ChargifyInterface
      *  A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt.
      * (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
      */
-    private $successful;
+    protected $successful;
 
     /**
      * @type
      *  A string describing which event type produced the given Webhook
      */
-    private $event;
+    protected $event;
 
     /**
      * @type string
      *  The data sent within the Webhook post
      */
-    private $body;
+    protected $body;
 
     /**
      * @type string
      *  The calculated Webhook signature
      */
-    private $signature;
+    protected $signature;
 
     /**
      * @type datetime
      *  Timestamp indicating when the Webhook was created
      */
-    private $created_at;
+    protected $created_at;
 
     /**
      * @type datetime
      *  Timestamp indicating when the Webhook was accepted by the merchant endpoint.
      * When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
      */
-    private $accepted_at;
+    protected $accepted_at;
 
     /**
      * @type datetime
      *  Timestamp indicating when the most recent attempt was made to send the Webhook
      */
-    private $last_sent_at;
+    protected $last_sent_at;
 
     /**
      * @type datetime
      *  Timestamp indicating when the last non-acceptance occurred. If a webhooks is later resent and accepted, this field will be cleared.
      */
-    private $last_error_at;
+    protected $last_error_at;
 
     /**
      * @type string
      *  The url that the endpoint was last sent to.
      */
-    private $last_sent_url;
+    protected $last_sent_url;
 
     /**
      * @type string
      *  Text describing the status code and/or error from the last failed attempt to send the Webhook.
      * When a webhook is retried and accepted, this field will be cleared.
      */
-    private $last_error;
+    protected $last_error;
 
     /**
      * @return datetime
