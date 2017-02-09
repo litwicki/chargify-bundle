@@ -2,7 +2,7 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
 use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
@@ -125,33 +125,6 @@ class ChargifyHandler
         $response = $request->send();
 
         return $response;
-    }
-
-    /**
-     * Throw a proper exception message.
-     *
-     * @param $curl
-     *
-     * @throws \Exception
-     */
-    public function throwException($curl)
-    {
-        if($curl->error_message) {
-
-            if($curl->error_code == 422) {
-                $errors = json_decode($curl->response, true);
-                $message = implode(' ', $errors['errors']);
-            }
-            else {
-                $message = $curl->error_message;
-            }
-        }
-        else {
-            $message = json_decode($curl->response, true);
-        }
-
-        throw new \Exception($message);
-
     }
 
     /**
