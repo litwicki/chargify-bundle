@@ -26,7 +26,7 @@ Installation and configuration requires three simple steps.
         {
             $bundles = array(
                 // ...
-                new Litwicki\Bundle\ChargifyBundle\ChargifyBundle(),
+                new Litwicki\Bundle\ChargifyBundle\LitwickiChargifyBundle(),
             );
 
             // ...
