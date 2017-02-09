@@ -32,7 +32,7 @@ class ChargeHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function create(Charge $entity)
+    public function create(ChargifyEntityInterface $entity)
     {
         try {
 
@@ -40,8 +40,8 @@ class ChargeHandler extends ChargifyHandler
                 $entity->getSubscriptionId()
             );
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, get_class($entity), $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, get_class($entity));
 
         }
         catch(\Exception $e) {

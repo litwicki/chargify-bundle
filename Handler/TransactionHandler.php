@@ -56,7 +56,7 @@ class TransactionHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', NULL, http_build_query($options));
             }
 
-            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction');
         }
         catch (\Exception $e) {
             throw $e;
@@ -75,7 +75,7 @@ class TransactionHandler extends ChargifyHandler
         try {
             $uri = sprintf('/transactions/%s', $id);
             $response = $this->request($uri);
-            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction');
         }
         catch (\Exception $e) {
             throw $e;
@@ -110,7 +110,7 @@ class TransactionHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', NULL, http_build_query($options));
             }
 
-            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction');
 
         }
         catch (\Exception $e) {

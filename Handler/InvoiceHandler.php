@@ -62,7 +62,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice');
 
         }
         catch(\Exception $e) {
@@ -86,8 +86,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Payment', $this->format());
+            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Payment');
 
         }
         catch (\Exception $e) {
@@ -111,8 +111,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment', $this->format());
+            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment');
 
         }
         catch (\Exception $e) {
@@ -136,8 +136,8 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge', $this->format());
+            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge');
 
         }
         catch (\Exception $e) {

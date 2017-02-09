@@ -45,7 +45,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $response);
+            return $this->fetchMultiple($uri, $this->entityClass, $response);
 
         }
         catch (\Exception $e) {
@@ -69,7 +69,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -93,7 +93,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -117,8 +117,8 @@ class ProductHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            $response = $this->request($uri, $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {

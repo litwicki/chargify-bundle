@@ -72,9 +72,9 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $uri = sprintf('/customers');
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
 
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -100,7 +100,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri);
 
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -129,7 +129,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             
             $body = $this->format() == 'json' ? $json : $xml;
 
-            return $this->apiResponse($body, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($body, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -151,7 +151,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             $uri = sprintf('/customers');
             $query = array('page' => $page, 'direction' => $sort);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $query);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
 
         }
         catch(\Exception $e) {
@@ -174,9 +174,9 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
+            $response = $this->request($uri, 'PUT', $this->serialize($entity, $this->format()));
 
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -227,7 +227,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
                 $query['auto_invite'] = $auto_invite;
             }
 
-            $result = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()), $query);
+            $result = $this->request($uri, 'POST', $this->serialize($entity, $this->format()), $query);
 
             return $result->response;
 
@@ -251,7 +251,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             );
 
             $response = $this->request($uri, 'POST', $this->serialize()->serialize($customer, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink');
 
         }
         catch(\Exception $e) {

@@ -61,20 +61,6 @@ class Allocation extends ChargifyEntity implements ChargifyEntityInterface
     }
 
     /**
-     * Load the Allocation Handler.
-     * @throws \Exception
-     */
-    public function getHandler()
-    {
-        try {
-            return $this->container->get('chargify.handler.allocation');
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
      * Allocations do not have an accessible id property.
      * @return int|null
      */

@@ -41,9 +41,9 @@ class CouponHandler extends ChargifyHandler
 
             $uri = sprintf('/coupons');
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
 
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -67,7 +67,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -90,7 +90,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('code' => $code);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $query);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
 
         }
         catch (\Exception $e) {
@@ -113,7 +113,7 @@ class CouponHandler extends ChargifyHandler
             $uri = sprintf('/coupons/find');
             $query = array('product_family_id' => $product_family_id);
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $query);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
 
         }
         catch (\Exception $e) {
@@ -162,7 +162,7 @@ class CouponHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'DELETE', $this->serializer()->serialize($entity, $this->format()));
+            $request = $this->request($uri, 'DELETE', $this->serialize($entity, $this->format()));
             $response = $this->responseToArray($request);
 
             return $response;

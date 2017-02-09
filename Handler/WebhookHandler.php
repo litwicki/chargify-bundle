@@ -29,7 +29,7 @@ class WebhookHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', null, http_build_query($options));
             }
 
-            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Webhook', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Webhook');
 
         }
         catch (\Exception $e) {
@@ -53,7 +53,7 @@ class WebhookHandler extends ChargifyHandler
         try {
 
             $uri = '/webhooks/replay';
-            $response = $this->request($uri, 'POST', $this->postData($ids));
+            $response = $this->request($uri, 'POST', $this->arrayToPostData($ids));
 
             return $this->responseToArray($response);
 

@@ -21,6 +21,7 @@ class ChargifyHandler
     private $api_key;
     private $format;
 
+    protected $entityClass;
     protected $serializer;
 
     /**
@@ -45,8 +46,9 @@ class ChargifyHandler
      * ]
      *
      */
-    public function __construct($domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode, $serializer)
+    public function __construct($entityClass, $domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode, $serializer)
     {
+        $this->entityClass = $entityClass;
         $this->domain = $domain;
         $this->api_id = $api_id;
         $this->api_secret = $api_secret;
@@ -58,19 +60,47 @@ class ChargifyHandler
         $this->serializer = $serializer;
     }
 
-    public function serializer()
+    /**
+     * @return mixed
+     */
+    public function serialize()
     {
-        return $this->serializer;
+        try {
+            return $this->serializer;
+        }
+        catch(\Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Fetch the API Format.
+     *
+     * @return mixed
+     */
     public function format()
     {
+        if(!in_array($this->format, ['json', 'xml'])) {
+            throw new ChargifyInvalidApiFormatException('%s is not a valid Api Format: `json` or `xml` only.');
+        }
+
         return $this->format;
     }
 
+    /**
+     * Submit an API request to Chargify.
+     *
+     * @param $uri
+     * @param string $method
+     * @param string $data
+     * @param array $query
+     * @param bool $v2
+     * @throws \Exception
+     */
     public function request($uri, $method = 'GET', $data = '', $query = array(), $v2 = false)
     {
         try {
+
             $base_uri = sprintf('https://%s.chargify.com', $this->domain);
 
 
@@ -107,6 +137,8 @@ class ChargifyHandler
                 throw new \Exception($response->getReasonPhrase());
             }
 
+            return $response->getBody();
+
         }
         catch (RequestException $e)
         {
@@ -114,10 +146,6 @@ class ChargifyHandler
                 throw new \Exception(Psr7\str($e->getResponse()));
             }
             throw new \Exception($e->getMessage());
-        }
-        catch (ClientException $e)
-        {
-            throw new \Exception(Psr7\str($e->getResponse()));
         }
         catch(\Exception $e)
         {
@@ -330,22 +358,27 @@ class ChargifyHandler
     /**
      * The “Clear Sites” API is method of allowing merchants to clear customers and subscriptions or all data from a site in TEST mode only.
      *
-     * @param $cleanup_scope
+     * @param $cleanupScope
      *          Optional, all or customers, the scope of cleanup of the site to be performed. Default is all.
      *
      * @throws \Exception
      */
-    private function clearSiteData($cleanup_scope)
+    private function clearSiteData($cleanupScope = 'all')
     {
         try {
 
             if($this->test_mode) {
+
+                if(!in_array($cleanupScope, ['all', 'customers'])) {
+                    throw new \Exception(sprintf('%s is not a valid Cleanup Scope: `all` or `customers`', $cleanupScope));
+                }
+
                 $uri = '/sites/clear_data';
-                $response = $this->request($uri, 'POST', null, http_build_query(array('cleanup_scope' => $cleanup_scope)));
-                return $this->responseToArray($response);
+                return $this->request($uri, 'POST', null, http_build_query(array('cleanup_scope' => $cleanupScope)));
+
             }
             else {
-                throw new AccessDeniedException('Cannot clear Site Data unless in TEST MODE!');
+                throw new AccessDeniedException(sprintf('You must be in `test_mode` to clear site data for "%s."', $this->domain));
             }
 
         }
@@ -354,12 +387,22 @@ class ChargifyHandler
         }
     }
 
-    public function apiResponse($data, $entityClass, $format = 'json')
+    /**
+     * For now, the Serializer isn't necessary here because the response we get from Chargify
+     * is already serialized in the format we requested (xml, json). So simply pass through
+     * that data format string to the User here.
+     *
+     * @TODO: fix the deserialization to work in sync with the Doctrine Entity.
+     *
+     * @param $data
+     * @param $entityClass
+     * @return mixed
+     * @throws \Exception
+     */
+    public function apiResponse($data, $entityClass)
     {
         try {
-
-
-
+            return $this->serializer->deserialize($data, $entityClass, $this->format());
         }
         catch(\Exception $e) {
             throw $e;

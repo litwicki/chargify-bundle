@@ -2,6 +2,7 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler;
 
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
@@ -35,7 +36,7 @@ class AdjustmentHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function create(Adjustment $entity)
+    public function create(ChargifyEntityInterface $entity)
     {
         try {
 
@@ -43,8 +44,8 @@ class AdjustmentHandler extends ChargifyHandler
                 $entity->getSubscriptionId()
             );
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, get_class($entity), $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {

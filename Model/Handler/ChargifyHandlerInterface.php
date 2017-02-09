@@ -2,6 +2,8 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
+
 Interface ChargifyHandlerInterface
 {
 
@@ -12,7 +14,7 @@ Interface ChargifyHandlerInterface
      *
      * @return mixed
      */
-    public function create($entity);
+    public function create(ChargifyEntityInterface $entity);
 
     /**
      * Save an existing object.
@@ -21,7 +23,7 @@ Interface ChargifyHandlerInterface
      *
      * @return mixed
      */
-    public function save($entity);
+    public function save(ChargifyEntityInterface $entity);
 
     /**
      * Delete an object.
@@ -30,11 +32,23 @@ Interface ChargifyHandlerInterface
      *
      * @return mixed
      */
-    public function delete($entity);
+    public function delete(ChargifyEntityInterface $entity);
 
 
-    public function get();
+    /**
+     * Get a specific Entity by Id.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function get($id, array $options);
 
-    public function getAll();
+    /**
+     * Get all Entities.
+     *
+     * @param array $options
+     * @return mixed
+     */
+    public function getAll(array $options);
 
 }

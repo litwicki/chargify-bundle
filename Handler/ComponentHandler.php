@@ -44,7 +44,7 @@ class ComponentHandler extends ChargifyHandler
                 $subscription_id
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Component');
+            return $this->fetchMultiple($uri, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -68,7 +68,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -83,7 +83,7 @@ class ComponentHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function create(Component $entity, $plural_kind)
+    public function create(ChargifyEntityInterface $entity, $plural_kind)
     {
         try {
 
@@ -92,8 +92,8 @@ class ComponentHandler extends ChargifyHandler
                 $plural_kind
             );
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -117,7 +117,7 @@ class ComponentHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Component');
+            return $this->fetchMultiple($uri, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -143,7 +143,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -165,8 +165,8 @@ class ComponentHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            $response = $this->request($uri, $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -190,8 +190,8 @@ class ComponentHandler extends ChargifyHandler
                 $entity->getComponentId()
             );
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -217,7 +217,7 @@ class ComponentHandler extends ChargifyHandler
                     $entity->getSubscriptionId()
                 );
 
-                $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
+                $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
 
                 $responses[] = $this->getResponse($response);
 

@@ -18,6 +18,12 @@ class ChargifyEntity implements ChargifyEntityInterface
     protected $id;
 
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer", unique=true)
+     */
+    protected $chargify_id;
+
+    /**
      * Get the base name of the class as the root element for XML requests.
      *
      * @throws \Exception
@@ -40,13 +46,18 @@ class ChargifyEntity implements ChargifyEntityInterface
      *
      * @throws \Exception
      */
-    public function setId($id)
+    public function setChargifyId($id)
     {
         if(is_numeric($this->id) && $this->id != $id) {
             throw new \Exception(sprintf('Cannot reassign Identifier for %s.', get_class($this)));
         }
 
         $this->id = $id;
+    }
+
+    public function getChargifyId()
+    {
+        return $this->chargify_id;
     }
 
     /**

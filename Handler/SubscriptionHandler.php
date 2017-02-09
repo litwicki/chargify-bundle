@@ -24,8 +24,9 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
-class SubscriptionHandler extends ChargifyHandler
+class SubscriptionHandler extends ChargifyHandler implements ChargifyHandlerInterface
 {
 
     /**
@@ -44,8 +45,8 @@ class SubscriptionHandler extends ChargifyHandler
                 $subscription_id
             );
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Refund', $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Refund');
 
         }
         catch (\Exception $e) {
@@ -110,14 +111,14 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function create(Subscription $entity)
+    public function create(ChargifyEntityInterface $entity)
     {
         try {
 
             $uri = sprintf('/subscriptions');
 
-            $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
+            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -138,7 +139,7 @@ class SubscriptionHandler extends ChargifyHandler
             $uri = sprintf('/subscriptions/%s', $id);
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -154,7 +155,7 @@ class SubscriptionHandler extends ChargifyHandler
      * @return mixed
      * @throws \Exception
      */
-    public function delete(Subscription $entity)
+    public function delete(ChargifyEntityInterface $entity)
     {
         try {
             $uri = sprintf('/subscriptions/%s',
@@ -178,7 +179,7 @@ class SubscriptionHandler extends ChargifyHandler
      * @return mixed
      * @throws \Exception
      */
-    public function cancel(Subscription $entity)
+    public function cancel(ChargifyEntityInterface $entity)
     {
         return $this->delete($entity);
     }
@@ -193,7 +194,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function cancelAtEndOfPeriod(Subscription $entity)
+    public function cancelAtEndOfPeriod(ChargifyEntityInterface $entity)
     {
         try {
 
@@ -203,8 +204,8 @@ class SubscriptionHandler extends ChargifyHandler
 
             $entity->setCancelAtEndOfPeriod(true);
 
-            $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
+            $response = $this->request($uri, 'PUT', $this->serialize($entity, $this->format()));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -225,7 +226,7 @@ class SubscriptionHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function reactivate(Subscription $entity, $options = array())
+    public function reactivate(ChargifyEntityInterface $entity, $options = array())
     {
         try {
 
@@ -233,8 +234,8 @@ class SubscriptionHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'PUT', $this->postData($options));
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
+            $response = $this->request($uri, 'PUT', $this->arrayToPostData($options));
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -262,7 +263,7 @@ class SubscriptionHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'PUT');
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $this->format());
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -284,7 +285,7 @@ class SubscriptionHandler extends ChargifyHandler
 
             $uri = sprintf('/subscriptions');
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $query);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
 
         }
         catch (\Exception $e) {
@@ -309,7 +310,7 @@ class SubscriptionHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Subscription', $query);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
 
         }
         catch (\Exception $e) {

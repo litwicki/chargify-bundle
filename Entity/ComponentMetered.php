@@ -3,18 +3,18 @@
 namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyComponentEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 /**
- * Class Component
+ * Class ComponentMetered
  *
  * @package Litwicki\Bundle\ChargifyBundle\Entity
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @orm\Table(name="ChargifyComponent")
+ * @orm\Table(name="ChargifyComponentMetered")
  */
-class Component extends ChargifyEntity implements ChargifyEntityInterface
+class ComponentMetered extends ChargifyComponentEntity implements ChargifyEntityInterface
 {
     /**
      * @type
@@ -82,11 +82,6 @@ class Component extends ChargifyEntity implements ChargifyEntityInterface
     protected $component_id;
 
     /**
-     * @type
-     */
-    protected $allocated_quantity;
-
-    /**
      * @type int
      *
      */
@@ -110,22 +105,6 @@ class Component extends ChargifyEntity implements ChargifyEntityInterface
     public function __construct($subscription_id)
     {
         $this->subscription_id = $subscription_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAllocatedQuantity()
-    {
-        return $this->allocated_quantity;
-    }
-
-    /**
-     * @param mixed $allocated_quantity
-     */
-    public function setAllocatedQuantity($allocated_quantity)
-    {
-        $this->allocated_quantity = $allocated_quantity;
     }
 
     /**
