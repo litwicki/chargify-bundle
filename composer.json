@@ -35,5 +35,12 @@
             "Litwicki\\Bundle\\ChargifyBundle" : ""
         }
     },
-    "target-dir" : "Litwicki/Bundle/ChargifyBundle"
+    "target-dir" : "Litwicki/Bundle/ChargifyBundle",
+    "repositories" : [{
+    }],
+    "extra" : {
+    "branch-alias" : {
+            "dev-master" : "dev"
+        }
+    }
 }
