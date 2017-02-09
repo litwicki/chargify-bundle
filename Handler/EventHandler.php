@@ -38,7 +38,7 @@ abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerIn
      * @throws \Exception
      * @return void $items array
      */
-    public function findAll($options)
+    public function getAll($options)
     {
         try {
             $uri = 'events';

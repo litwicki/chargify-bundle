@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 
 /**
@@ -22,7 +22,7 @@ use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleExceptio
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifyAllocation")
  */
-class Allocation extends ChargifyEntity implements ChargifyInterface
+class Allocation extends ChargifyEntity implements ChargifyEntityInterface
 {
     protected $previous_quantity;
 

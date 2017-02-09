@@ -4,7 +4,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 /**
  * Class Statement
@@ -14,7 +14,7 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifyStatement")
  */
-class Statement extends ChargifyEntity implements ChargifyInterface
+class Statement extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
      * @type int

@@ -43,7 +43,7 @@ class TransactionHandler extends ChargifyHandler
      * @throws \Exception
      * @returns array of \Litwicki\Bundle\ChargifyBundle\Entity\Transaction
      */
-    public function findAll($options = array())
+    public function getAll($options = array())
     {
         try {
 
@@ -56,7 +56,7 @@ class TransactionHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', NULL, http_build_query($options));
             }
 
-            return $this->serializer()->deserialize($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
         }
         catch (\Exception $e) {
             throw $e;
@@ -70,12 +70,12 @@ class TransactionHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function find($id)
+    public function get($id)
     {
         try {
             $uri = sprintf('/transactions/%s', $id);
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
         }
         catch (\Exception $e) {
             throw $e;
@@ -110,7 +110,7 @@ class TransactionHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', NULL, http_build_query($options));
             }
 
-            return $this->serializer()->deserialize($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Transaction', $this->format());
 
         }
         catch (\Exception $e) {

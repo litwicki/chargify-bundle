@@ -36,7 +36,7 @@ class ProductHandler extends ChargifyHandler
      * @return mixed
      * @throws \Exception
      */
-    public function findAll($product_family_id)
+    public function getAll($product_family_id)
     {
         try {
 
@@ -60,7 +60,7 @@ class ProductHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function find($id)
+    public function get($id)
     {
         try {
 
@@ -69,7 +69,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -93,7 +93,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {
@@ -118,7 +118,7 @@ class ProductHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Product', $this->format());
 
         }
         catch (\Exception $e) {

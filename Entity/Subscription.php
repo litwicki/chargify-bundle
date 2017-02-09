@@ -7,7 +7,7 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
 use Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 use Symfony\Component\Serializer;
 
@@ -19,7 +19,7 @@ use Symfony\Component\Serializer;
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifySubscription")
  */
-class Subscription extends ChargifyEntity implements ChargifyInterface
+class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**

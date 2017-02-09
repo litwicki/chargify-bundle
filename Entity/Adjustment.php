@@ -8,7 +8,7 @@
 namespace Litwicki\Bundle\ChargifyBundle\Entity;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifyAdjustment")
  */
-class Adjustment extends ChargifyEntity implements ChargifyInterface
+class Adjustment extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**

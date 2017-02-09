@@ -30,23 +30,22 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 {
 
     /**
-     * Set the Reference field equal to the email. This stops duplicates from being
-     * created under the same email address, and allows reverse lookup to the local
-     * system, assuming email addresses are also unique locally.
-     * @param $entity
+     * Set the Reference value for this Customer. By default it will be the Id, unless
+     * we pass a $value to set.
      *
+     * @param $entity
+     * @param null $value
+     * @return mixed
      * @throws \Exception
      */
-    public function setReference($entity)
+    public function setReference(ChargifyEntityInterface $entity, $value = null)
     {
         try {
 
-//            if($entity->getId()) {
-//                throw new \Exception('Cannot assign Reference value to an existing Customer!');
-//            }
+            $reference = (is_null($value)) ? $entity->getId() : $value;
 
             if(is_null($entity->getReference())) {
-                $entity->setReference($entity->getEmail());
+                $entity->setReference($reference);
             }
 
             return $entity;
@@ -75,7 +74,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -101,7 +100,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri);
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -115,7 +114,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
      *
      * @throws \Exception
      */
-    public function find($id)
+    public function get($id)
     {
         try {
 
@@ -130,7 +129,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             
             $body = $this->format() == 'json' ? $json : $xml;
 
-            return $this->serializer()->deserialize($body, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($body, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -145,7 +144,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
      * @return mixed
      * @throws \Exception
      */
-    public function findAll($page = 1, $sort = 'asc')
+    public function getAll($page = 1, $sort = 'asc')
     {
         try {
 
@@ -177,7 +176,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri, 'PUT', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
@@ -252,7 +251,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             );
 
             $response = $this->request($uri, 'POST', $this->serialize()->serialize($customer, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink', $this->format());
 
         }
         catch(\Exception $e) {

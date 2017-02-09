@@ -44,7 +44,7 @@ class AdjustmentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment', $this->format());
+            return $this->apiResponse($response, get_class($entity), $this->format());
 
         }
         catch(\Exception $e) {

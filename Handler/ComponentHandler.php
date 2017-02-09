@@ -68,7 +68,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -93,7 +93,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -143,7 +143,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -166,7 +166,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch (\Exception $e) {
@@ -191,7 +191,7 @@ class ComponentHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Component', $this->format());
 
         }
         catch(\Exception $e) {

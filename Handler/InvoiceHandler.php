@@ -35,7 +35,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
      * @throws \Exception
      * @return void $items array
      */
-    public function findAll()
+    public function getAll()
     {
         try {
             $uri = 'events';
@@ -53,7 +53,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
      *
      * @throws \Exception
      */
-    public function find($id)
+    public function get($id)
     {
         try {
 
@@ -62,7 +62,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice', $this->format());
 
         }
         catch(\Exception $e) {
@@ -87,7 +87,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Payment', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Payment', $this->format());
 
         }
         catch (\Exception $e) {
@@ -112,7 +112,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment', $this->format());
 
         }
         catch (\Exception $e) {
@@ -137,7 +137,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
             );
 
             $response = $this->request($uri, 'POST', $this->postData($data));
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge', $this->format());
 
         }
         catch (\Exception $e) {

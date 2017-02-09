@@ -9,7 +9,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 
@@ -21,7 +21,7 @@ use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleExceptio
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifyManagementLink")
  */
-class ManagementLink extends ChargifyEntity implements ChargifyInterface
+class ManagementLink extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**

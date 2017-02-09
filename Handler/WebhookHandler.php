@@ -16,7 +16,7 @@ class WebhookHandler extends ChargifyHandler
      * @throws \Exception
      * @returns array of \Litwicki\Bundle\ChargifyBundle\Entity\Webhook
      */
-    public function findAll($options = array())
+    public function getAll($options = array())
     {
         try {
 
@@ -29,7 +29,7 @@ class WebhookHandler extends ChargifyHandler
                 $response = $this->request($uri, 'GET', null, http_build_query($options));
             }
 
-            return $this->serializer()->deserialize($response, 'Litwicki\Bundle\Chargify\Modle\Webhook', $this->format());
+            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Webhook', $this->format());
 
         }
         catch (\Exception $e) {

@@ -43,7 +43,7 @@ class CouponHandler extends ChargifyHandler
 
             $response = $this->request($uri, 'POST', $this->serializer()->serialize($entity, $this->format()));
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
 
         }
         catch (\Exception $e) {
@@ -58,7 +58,7 @@ class CouponHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function find($id)
+    public function get($id)
     {
         try {
 
@@ -67,7 +67,7 @@ class CouponHandler extends ChargifyHandler
             );
 
             $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
+            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Coupon', $this->format());
 
         }
         catch (\Exception $e) {

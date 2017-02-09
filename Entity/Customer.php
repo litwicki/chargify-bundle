@@ -4,7 +4,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 use Litwicki\Bundle\ChargifyBundle\Handler\CustomerHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 
 /**
@@ -15,7 +15,7 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
  * @ORM\HasLifecycleCallbacks
  * @orm\Table(name="ChargifyCustomer")
  */
-class Customer extends ChargifyEntity implements ChargifyInterface
+class Customer extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
      * @type

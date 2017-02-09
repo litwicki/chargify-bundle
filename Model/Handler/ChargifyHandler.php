@@ -3,6 +3,9 @@
 namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
 use GuzzleHttp\Client as Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
 use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
@@ -67,52 +70,58 @@ class ChargifyHandler
 
     public function request($uri, $method = 'GET', $data = '', $query = array(), $v2 = false)
     {
-        $base_uri = sprintf('https://%s.chargify.com', $this->domain);
+        try {
+            $base_uri = sprintf('https://%s.chargify.com', $this->domain);
 
-        $full_url = sprintf('%s%s.%s',
-            $base_uri,
-            $uri,
-            $this->format
-        );
 
-        if(!empty($query)) {
-            $uri = sprintf('%s?%s', $uri, http_build_query($query));
+            $full_url = sprintf('%s%s.%s',
+                $base_uri,
+                $uri,
+                $this->format
+            );
+
+            if (!empty($query)) {
+                $uri = sprintf('%s?%s', $uri, http_build_query($query));
+            }
+
+            if ($v2) {
+                $auth = array($this->api_secret, $this->api_password);
+            } else {
+                $auth = array($this->api_key, 'x');
+            }
+
+            $options = array(
+                'base_url' => $base_uri,
+                'auth' => $auth
+            );
+
+            $client = new Client($options);
+
+            $method = strtoupper($method);
+
+            $response = $client->request($method, $full_url, $auth);
+
+            $code = $response->getStatusCode();
+
+            if($code != 200) {
+                throw new \Exception($response->getReasonPhrase());
+            }
+
         }
-
-        if($v2) {
-            $auth = array($this->api_secret,$this->api_password);
+        catch (RequestException $e)
+        {
+            if ($e->hasResponse()) {
+                throw new \Exception(Psr7\str($e->getResponse()));
+            }
+            throw new \Exception($e->getMessage());
         }
-        else {
-            $auth = array($this->api_key, 'x');
+        catch (ClientException $e)
+        {
+            throw new \Exception(Psr7\str($e->getResponse()));
         }
-
-        $options = array(
-            'base_url' => $base_uri,
-            'auth' => $auth
-        );
-
-        $client = new Client($options);
-
-        $method = strtoupper($method);
-
-        switch ($method) {
-
-            case 'DELETE':
-                $request = $client->delete($url, $data);
-                break;
-            case 'PATCH':
-                $request = $client->patch($url, $data);
-                break;
-            case 'POST':
-                $request = $client->post($url, $data);
-                break;
-            case 'PUT':
-                $request = $client->put($url, $data);
-                break;
-            case 'GET':
-            default:
-                return $client->request('GET', $full_url, $auth);
-                break;
+        catch(\Exception $e)
+        {
+            throw $e;
         }
 
     }
@@ -341,6 +350,18 @@ class ChargifyHandler
 
         }
         catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function apiResponse($data, $entityClass, $format = 'json')
+    {
+        try {
+
+
+
+        }
+        catch(\Exception $e) {
             throw $e;
         }
     }

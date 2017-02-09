@@ -4,10 +4,10 @@ namespace Litwicki\Bundle\ChargifyBundle\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
-class ChargifyEntity
+class ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**

@@ -32,4 +32,9 @@ Interface ChargifyHandlerInterface
      */
     public function delete($entity);
 
+
+    public function get();
+
+    public function getAll();
+
 }

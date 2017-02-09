@@ -4,7 +4,7 @@ namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Litwicki\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
-use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 /**
  * Class Credit
@@ -15,7 +15,7 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyInterface;
  * @orm\Table(name="ChargifyCredit")
  */
 
-class Credit extends ChargifyEntity implements ChargifyInterface
+class Credit extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
      * The Credits API has been deprecated in favor of Adjustments.
