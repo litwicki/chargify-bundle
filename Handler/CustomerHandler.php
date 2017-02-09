@@ -125,7 +125,12 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
 
             $response = $this->request($uri);
 
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
+            $json = json_decode($response->getBody(), true);
+            $xml = array(); //@TODO: fix for XML :)
+            
+            $body = $this->format() == 'json' ? $json : $xml;
+
+            return $this->serializer()->deserialize($body, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
 
         }
         catch(\Exception $e) {
