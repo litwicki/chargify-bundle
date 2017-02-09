@@ -6,44 +6,44 @@ services:
 
     chargify.handler.adjustment:
         class: Litwicki\Bundle\ChargifyBundle\Handler\AdjustmentHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.charge:
         class: Litwicki\Bundle\ChargifyBundle\Handler\ChargeHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.component:
         class: Litwicki\Bundle\ChargifyBundle\Handler\ComponentHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.coupon:
         class: Litwicki\Bundle\ChargifyBundle\Handler\CouponHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.customer:
         class: Litwicki\Bundle\ChargifyBundle\Handler\CustomerHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.event:
         class: Litwicki\Bundle\ChargifyBundle\Handler\EventHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.invoice:
         class: Litwicki\Bundle\ChargifyBundle\Handler\InvoiceHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.product:
         class: Litwicki\Bundle\ChargifyBundle\Handler\ProductHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.subscription:
         class: Litwicki\Bundle\ChargifyBundle\Handler\SubscriptionHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.transaction:
         class: Litwicki\Bundle\ChargifyBundle\Handler\TransactionHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
 
     chargify.handler.webhook:
         class: Litwicki\Bundle\ChargifyBundle\Handler\WebhookHandler
-        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%"]
+        arguments: ["%chargify.domain%","%chargify.api_id%","%chargify.api_secret%","%chargify.api_password%","%chargify.api_key%","%chargify.shared_key%","%chargify.data_format%","%chargify.test_mode%", "@serializer"]
