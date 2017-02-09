@@ -151,7 +151,7 @@ class ChargifyApiHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function entityToPostData($entity)
+    public function serialize($entity)
     {
         try {
             return $this->serializer->serialize($entity, $this->format);

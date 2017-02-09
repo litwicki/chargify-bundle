@@ -2,13 +2,12 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -26,49 +25,8 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandlerInterface
+class InvoiceHandler extends ChargifyEntityHandler
 {
-
-    /**
-     * Fetch a paged result set of Invoices.
-     *
-     * @throws \Exception
-     * @return void $items array
-     */
-    public function getAll()
-    {
-        try {
-            $uri = 'events';
-            return $this->fetchMultiple($uri, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice');
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Fetch an Invoice by Id.
-     *
-     * @param $id
-     *
-     * @throws \Exception
-     */
-    public function get($id)
-    {
-        try {
-
-            $uri = sprintf('/invoices/%s',
-                $id
-            );
-
-            $response = $this->request($uri);
-            return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Invoice');
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
 
     /**
      * Send an Invoice payment.
@@ -82,11 +40,12 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
     {
         try {
 
-            $uri = sprintf('/invoices/%s/payments',
+            $uri = sprintf('%s/%s/payments',
+                $this->getUri(),
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            $response = $this->request($uri, 'POST', $this->serialize($data));
             return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Payment');
 
         }
@@ -111,7 +70,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            $response = $this->request($uri, 'POST', $this->serialize($data));
             return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Adjustment');
 
         }
@@ -136,7 +95,7 @@ abstract class InvoiceHandler extends ChargifyHandler implements ChargifyHandler
                 $entity->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->arrayToPostData($data));
+            $response = $this->request($uri, 'POST', $this->serialize($data));
             return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Charge');
 
         }

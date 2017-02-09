@@ -2,7 +2,7 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
@@ -26,7 +26,7 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterface
+class CustomerHandler extends ChargifyEntityHandler
 {
 
     /**
@@ -49,32 +49,6 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
             }
 
             return $entity;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Create an adjustment on a subscription.
-     *
-     * @param $entity
-     *
-     * @return mixed|void
-     * @throws \Exception
-     */
-    public function create($entity)
-    {
-        try {
-
-            $entity = $this->setReference($entity);
-
-            $uri = sprintf('/customers');
-
-            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
-
-            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -108,128 +82,24 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
         }
     }
 
-
-    /**
-     * Find a Customer record by primary identifier
-     *
-     * @throws \Exception
-     */
-    public function get($id)
-    {
-        try {
-
-            $uri = sprintf('/customers/%s',
-                $id
-            );
-
-            $response = $this->request($uri);
-
-            $json = json_decode($response->getBody(), true);
-            $xml = array(); //@TODO: fix for XML :)
-            
-            $body = $this->format() == 'json' ? $json : $xml;
-
-            return $this->apiResponse($body, $this->entityClass);
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param int $page
-     * @param string $sort
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getAll($page = 1, $sort = 'asc')
-    {
-        try {
-
-            $uri = sprintf('/customers');
-            $query = array('page' => $page, 'direction' => $sort);
-
-            return $this->fetchMultiple($uri, $this->entityClass, $query);
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Save this entity.
-     *
-     * @throws \Exception
-     */
-    public function save($entity)
-    {
-        try {
-
-            $entity = $this->setReference($entity);
-
-            $uri = sprintf('/customers/%s',
-                $entity->getId()
-            );
-
-            $response = $this->request($uri, 'PUT', $this->serialize($entity, $this->format()));
-
-            return $this->apiResponse($response, $this->entityClass);
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-
-    }
-
-    /**
-     * Delete this entity.
-     *
-     * @throws \Exception
-     */
-    public function delete($id)
-    {
-        try {
-
-            $uri = sprintf('/customers/%s',
-                $id
-            );
-
-            $result = $this->request($uri, 'DELETE');
-
-            return $result->response;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
     /**
      * @param \Litwicki\Bundle\ChargifyBundle\Entity\Customer $entity
      * @param bool $auto_invite
      *
      * @throws \Exception
      */
-    public function enableBillingPortal(Customer $entity, $auto_invite = false)
+    public function enableBillingPortal(Customer $entity, array $query = array())
     {
         try {
 
-            $uri = sprintf('/portal/customers/%s/enable',
-                $entity->getId()
+            $uri = sprintf('/portal/customers/%s/enable?%s',
+                $entity->getId(),
+                http_build_query($query)
             );
 
-            $query = array();
-            if($auto_invite) {
-                $query['auto_invite'] = $auto_invite;
-            }
+            $response = $this->request($uri, 'POST', $this->serialize($entity));
 
-            $result = $this->request($uri, 'POST', $this->serialize($entity, $this->format()), $query);
-
-            return $result->response;
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -250,7 +120,7 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
                 $customer->getId()
             );
 
-            $response = $this->request($uri, 'POST', $this->serialize()->serialize($customer, $this->format()));
+            $response = $this->request($uri, 'POST', $this->serialize($customer));
             return $this->apiResponse($response, '\Litwicki\Bundle\ChargifyBundle\Entity\ManagementLink');
 
         }

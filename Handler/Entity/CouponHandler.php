@@ -160,7 +160,7 @@ class CouponHandler extends ChargifyEntityHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri);
+            $response = $this->request($uri);
 
             return $this->apiResponse($response->getBody(), $this->entityClass);
 

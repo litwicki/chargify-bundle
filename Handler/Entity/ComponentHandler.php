@@ -101,7 +101,8 @@ class ComponentHandler extends ChargifyEntityHandler
                 $subscription_id
             );
 
-            return $this->fetchMultiple($uri, $this->entityClass);
+            $response = $this->request($uri);
+            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -149,7 +150,7 @@ class ComponentHandler extends ChargifyEntityHandler
                 $id
             );
 
-            $response = $this->request($uri, 'GET', array(), $query);
+            $response = $this->request($uri);
             return $this->apiResponse($response->getBody(), '\Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface');
 
         }

@@ -40,17 +40,16 @@ class ProductHandler extends ChargifyEntityHandler
      * @throws \Exception
      * @return array of ids
      */
-    public function getAll($query = array())
+    public function getAll(array $query = array())
     {
         try {
 
-            $uri = sprintf('/statements/ids');
+            $uri = sprintf('%s/ids?%s',
+                $this->getUri(),
+                http_build_query($query)
+            );
 
-            if (empty($query)) {
-                $response = $this->request($uri);
-            } else {
-                $response = $this->request($uri, 'GET', null, http_build_query($query));
-            }
+            $response = $this->request($uri);
 
             return $this->apiResponse($response->getBody(), $this->entityClass);
 
@@ -59,23 +58,4 @@ class ProductHandler extends ChargifyEntityHandler
         }
     }
 
-    /**
-     * Find a statement.
-     *
-     * @param $id
-     *
-     * @throws \Exception
-     */
-    public function get($id)
-    {
-        try {
-
-            $uri = sprintf('/statements/%s', $id);
-            $response = $this->request($uri);
-            return $this->apiResponse($response, $this->entityClass);
-
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
 }

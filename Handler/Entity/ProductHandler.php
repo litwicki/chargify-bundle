@@ -2,12 +2,11 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -25,57 +24,8 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class ProductHandler extends ChargifyHandler
+class ProductHandler extends ChargifyEntityHandler
 {
-
-    /**
-     * Find all products in a specific Product Family.
-     *
-     * @param $product_family_id
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getAll($product_family_id)
-    {
-        try {
-
-            $uri = sprintf('/product_families/%s/products',
-                $product_family_id
-            );
-
-            $response = $this->request($uri);
-            return $this->fetchMultiple($uri, $this->entityClass, $response);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Find a product by Id.
-     *
-     * @param $id
-     *
-     * @throws \Exception
-     */
-    public function get($id)
-    {
-        try {
-
-            $uri = sprintf('/products/%s',
-                $id
-            );
-
-            $response = $this->request($uri);
-            return $this->apiResponse($response, $this->entityClass);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
 
     /**
      * Find a product by Handle.
@@ -88,12 +38,13 @@ class ProductHandler extends ChargifyHandler
     {
         try {
 
-            $uri = sprintf('/products/handle/%s',
+            $uri = sprintf('%s/handle/%s',
+                $this->getUri(),
                 $handle
             );
 
             $response = $this->request($uri);
-            return $this->apiResponse($response, $this->entityClass);
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -109,7 +60,7 @@ class ProductHandler extends ChargifyHandler
      *
      * @throws \Exception
      */
-    public function create(Product $entity, $product_family_id)
+    public function create(ChargifyEntityInterface $entity, $product_family_id)
     {
         try {
 
@@ -117,7 +68,7 @@ class ProductHandler extends ChargifyHandler
                 $product_family_id
             );
 
-            $response = $this->request($uri, $this->serialize($entity, $this->format()));
+            $response = $this->request($uri, $this->serialize($entity));
             return $this->apiResponse($response, $this->entityClass);
 
         }
