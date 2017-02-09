@@ -13,6 +13,8 @@ Installation and configuration requires three simple steps.
 
 ### 1. Download the bundle
 
+****IMPORTANT**** While in early development, you will need to set your `minimum-stability` to `dev-master` to use this bundle.
+
     $ composer require "litwicki/chargify-bundle"
 
 ### 2. Enable the bundle
@@ -34,7 +36,7 @@ Installation and configuration requires three simple steps.
 ### 3. Configure the bundle
 
     # app/config/config.yml
-    chargify:
+    litwicki_chargify:
         test_mode: false
         data_format: json
         route_prefix: /chargify
