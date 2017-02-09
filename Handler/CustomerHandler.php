@@ -95,15 +95,13 @@ class CustomerHandler extends ChargifyHandler implements ChargifyHandlerInterfac
         try {
 
             $uri = sprintf('/customers/lookup.%s?reference=%s',
-                $this->getFormat(),
+                $this->format(),
                 $reference
             );
 
             $response = $this->request($uri);
 
             return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Entity\Customer', $this->format());
-
-            return $entity;
 
         }
         catch(\Exception $e) {
