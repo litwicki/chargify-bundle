@@ -2,11 +2,10 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
-use Litwicki\Common\cURL;
-use Litwicki\Common\Common;
+use Guzzle\Http\Client;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Statement;
-use Litwicki\Bundle\ChargifyBundle\Model\Subscription;
+use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
+use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ChargifyHandler
@@ -66,21 +65,8 @@ class ChargifyHandler
         return $this->format;
     }
 
-    /**
-     * @param $uri
-     * @param string $method
-     * @param string $data
-     * @param array $query
-     * @param bool $v2
-     *
-     * @return \Litwicki\Common\cURL
-     * @throws \Exception
-     */
     public function request($uri, $method = 'GET', $data = '', $query = array(), $v2 = false)
     {
-
-        $curl = new cURL();
-
         $url = sprintf('https://%s.chargify.com%s.%s',
             $this->domain,
             $uri,
@@ -91,61 +77,54 @@ class ChargifyHandler
             $url = sprintf('%s?%s', $url, http_build_query($query));
         }
 
-        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
-        $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
-        $curl->setOpt(CURLOPT_FOLLOWLOCATION, false);
-        $curl->setOpt(CURLOPT_MAXREDIRS, 1);
-        $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
-
-        if ($this->format == 'json') {
-            $curl->setHeader('Content-Type', 'application/json');
-            $curl->setHeader('Accept', 'application/json');
-        }
-        else {
-            $curl->setHeader('Content-Type', 'application/xml');
-            $curl->setHeader('Accept', 'application/xml');
-        }
-
-        /**
-         * Setup authentication scheme.
-         */
         if($v2) {
-            $curl->setBasicAuthentication($this->api_secret, $this->api_password);
+            $auth = array(
+                'username' => $this->api_secret,
+                'password' => $this->api_password
+            );
         }
         else {
-            $curl->setBasicAuthentication($this->api_key, 'x');
+            $auth = array(
+                'username' => $this->api_key,
+                'password' => 'x'
+            );
         }
+
+        $options = array(
+            'request.options' => array(
+                'exceptions' => false,
+            ),
+            'auth' => $auth
+        );
+
+        $client = new Client($url, $options);
+
 
         $method = strtoupper($method);
 
         switch ($method) {
 
             case 'DELETE':
-                $curl->delete($url, $data);
+                $request = $client->delete();
                 break;
             case 'PATCH':
-                $curl->patch($url, $data);
+                $request = $client->patch($url, $data);
                 break;
             case 'POST':
-                $curl->post($url, $data);
+                $request = $client->post($url, $data);
                 break;
             case 'PUT':
-                $curl->put($url, $data);
+                $request = $client->put($url, $data);
                 break;
             case 'GET':
             default:
-                $curl->get($url);
+                $request = $client->get($url, null);
                 break;
         }
 
-        $curl->setOpt(CURLOPT_CONNECTTIMEOUT, 10);
-        $curl->setOpt(CURLOPT_TIMEOUT, 30);
+        $response = $request->send();
 
-        if ($curl->error) {
-            $this->throwException($curl);
-        }
-
-        return $curl;
+        return $response;
     }
 
     /**
