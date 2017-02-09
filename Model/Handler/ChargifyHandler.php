@@ -2,7 +2,7 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Handler;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as Client;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
 use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
@@ -67,38 +67,31 @@ class ChargifyHandler
 
     public function request($uri, $method = 'GET', $data = '', $query = array(), $v2 = false)
     {
-        $url = sprintf('https://%s.chargify.com%s.%s',
-            $this->domain,
+        $base_uri = sprintf('https://%s.chargify.com', $this->domain);
+
+        $full_url = sprintf('%s%s.%s',
+            $base_uri,
             $uri,
             $this->format
         );
 
         if(!empty($query)) {
-            $url = sprintf('%s?%s', $url, http_build_query($query));
+            $uri = sprintf('%s?%s', $uri, http_build_query($query));
         }
 
         if($v2) {
-            $auth = array(
-                'username' => $this->api_secret,
-                'password' => $this->api_password
-            );
+            $auth = array($this->api_secret,$this->api_password);
         }
         else {
-            $auth = array(
-                'username' => $this->api_key,
-                'password' => 'x'
-            );
+            $auth = array($this->api_key, 'x');
         }
 
         $options = array(
-            'request.options' => array(
-                'exceptions' => false,
-            ),
+            'base_url' => $base_uri,
             'auth' => $auth
         );
 
         $client = new Client($options);
-
 
         $method = strtoupper($method);
 
@@ -118,13 +111,10 @@ class ChargifyHandler
                 break;
             case 'GET':
             default:
-                $request = $client->get($url, null);
+                return $client->request('GET', $full_url, $auth);
                 break;
         }
 
-        $response = $request->send();
-
-        return $response;
     }
 
     /**
