@@ -2,41 +2,11 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class WebhookHandler extends ChargifyHandler
+class WebhookHandler extends ChargifyEntityHandler
 {
-
-    /**
-     * List all Webhooks for a Site.
-     *
-     * @param array $options
-     *
-     * @throws \Exception
-     * @returns array of \Litwicki\Bundle\ChargifyBundle\Entity\Webhook
-     */
-    public function getAll($options = array())
-    {
-        try {
-
-            $uri = '/webhooks';
-
-            if(empty($options)) {
-                $response = $this->request($uri);
-            }
-            else {
-                $response = $this->request($uri, 'GET', null, http_build_query($options));
-            }
-
-            return $this->apiResponse($response, 'Litwicki\Bundle\Chargify\Modle\Webhook');
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
     /**
      * Replay Webhooks for a Site
      * Posting to the replay endpoint does not immediate resend the webhooks.
@@ -48,14 +18,13 @@ class WebhookHandler extends ChargifyHandler
      * @return mixed
      * @throws \Exception
      */
-    public function replay($ids)
+    public function replay(array $ids = array())
     {
         try {
 
             $uri = '/webhooks/replay';
-            $response = $this->request($uri, 'POST', $this->arrayToPostData($ids));
-
-            return $this->responseToArray($response);
+            $response = $this->request($uri, 'POST', $this->serialize($ids));
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
