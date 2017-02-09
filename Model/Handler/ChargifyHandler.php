@@ -97,7 +97,7 @@ class ChargifyHandler
             'auth' => $auth
         );
 
-        $client = new Client($url, $options);
+        $client = new Client($options);
 
 
         $method = strtoupper($method);
@@ -105,7 +105,7 @@ class ChargifyHandler
         switch ($method) {
 
             case 'DELETE':
-                $request = $client->delete();
+                $request = $client->delete($url, $data);
                 break;
             case 'PATCH':
                 $request = $client->patch($url, $data);
