@@ -1,8 +1,9 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
@@ -25,27 +26,28 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class ChargeHandler extends ChargifyHandler
+abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerInterface
 {
+
     /**
-     * @param $entity
+     * Fetch a paged result set of Events.
+     *
+     * @param $options
+     * Optional Parameters: page, per_page, since_id, max_id, direction (asc, desc)
      *
      * @throws \Exception
+     * @return void $items array
      */
-    public function create(ChargifyEntityInterface $entity)
+    public function getAll(array $options = array())
     {
         try {
-
-            $uri = sprintf('subscriptions/%s/charges',
-                $entity->getSubscriptionId()
-            );
-
-            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
-            return $this->apiResponse($response, get_class($entity));
-
+            $uri = 'events';
+            $query = http_build_query($options);
+            return $this->fetchMultiple($uri, $this->entityClass, $query);
         }
         catch(\Exception $e) {
             throw $e;
         }
     }
+
 }

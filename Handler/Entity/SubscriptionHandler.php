@@ -1,6 +1,6 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
@@ -279,7 +279,7 @@ class SubscriptionHandler extends ChargifyHandler implements ChargifyHandlerInte
      * @return mixed
      * @throws \Exception
      */
-    public function getAll($query = array())
+    public function getAll(array $query = array())
     {
         try {
 

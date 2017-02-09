@@ -1,14 +1,13 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -26,28 +25,32 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-abstract class EventHandler extends ChargifyHandler implements ChargifyHandlerInterface
+class AdjustmentHandler extends ChargifyEntityHandler
 {
 
     /**
-     * Fetch a paged result set of Events.
+     * Define the CREATE (POST) URI for an Adjustment.
      *
-     * @param $options
-     * Optional Parameters: page, per_page, since_id, max_id, direction (asc, desc)
-     *
-     * @throws \Exception
-     * @return void $items array
+     * @param ChargifyEntityInterface $entity
+     * @return string
      */
-    public function getAll(array $options = array())
+    public function getUri(ChargifyEntityInterface $entity = null)
     {
         try {
-            $uri = 'events';
-            $query = http_build_query($options);
-            return $this->fetchMultiple($uri, $this->entityClass, $query);
+
+            if(!$entity instanceof Subscription) {
+                throw new \Exception(sprintf('Adjustments can only be applied to Subscriptions, %s given', get_class($entity)));
+            }
+
+            return sprintf('%s/%s/adjustments',
+                $this->uri,
+                $entity->getSubscriptionId()
+            );
         }
         catch(\Exception $e) {
             throw $e;
         }
+
     }
 
 }

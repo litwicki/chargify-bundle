@@ -1,14 +1,13 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -26,31 +25,28 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class AdjustmentHandler extends ChargifyHandler
+class ChargeHandler extends ChargifyEntityHandler
 {
 
     /**
-     * Create an adjustment on a subscription.
+     * Define the CREATE (POST) URI for an Adjustment.
      *
-     * @param $entity
-     *
-     * @throws \Exception
+     * @param ChargifyEntityInterface $entity
+     * @return string
      */
-    public function create(ChargifyEntityInterface $entity)
+    public function getUri(ChargifyEntityInterface $entity = null)
     {
         try {
 
-            $uri = sprintf('/subscriptions/%s/adjustments',
+            return sprintf('/subscriptions/%s/charges',
                 $entity->getSubscriptionId()
             );
-
-            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
-            return $this->apiResponse($response, $this->entityClass);
 
         }
         catch(\Exception $e) {
             throw $e;
         }
+
     }
 
 }

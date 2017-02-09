@@ -10,8 +10,9 @@ use GuzzleHttp\Exception\RequestException;
 use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
 use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyInvalidApiFormatException;
 
-class ChargifyHandler
+class ChargifyApiHandler extends ChargifyHandler
 {
     private $domain;
     private $test_mode;
@@ -20,36 +21,15 @@ class ChargifyHandler
     private $api_password;
     private $api_key;
     private $format;
+    private $uri;
 
     protected $entityClass;
     protected $serializer;
 
-    /**
-     * @param $domain
-     * @param $api_id
-     * @param $api_secret
-     * @param $api_password
-     * @param $api_key
-     * @param $format
-     * @param $test_mode
-     * @param $serializer
-     *
-     * arguments: [
-     *   "%chargify.domain%",
-     *   "%chargify.api_id%",
-     *   "%chargify.api_secret%",
-     *   "%chargify.api_password%",
-     *   "%chargify.api_key%",
-     *   "%chargify.shared_key%",
-     *   "%chargify.data_format%",
-     *   "%chargify.test_mode%"
-     * ]
-     *
-     */
-    public function __construct($entityClass, $domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode, $serializer)
+    public function __construct($uri, $domain, $api_id, $api_secret, $api_password, $api_key, $shared_key, $format, $test_mode, $serializer)
     {
-        $this->entityClass = $entityClass;
         $this->domain = $domain;
+        $this->uri = $uri;
         $this->api_id = $api_id;
         $this->api_secret = $api_secret;
         $this->api_password = $api_password;
@@ -58,19 +38,6 @@ class ChargifyHandler
         $this->format = $format;
         $this->test_mode = $test_mode;
         $this->serializer = $serializer;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function serialize()
-    {
-        try {
-            return $this->serializer;
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
     }
 
     /**
@@ -161,7 +128,7 @@ class ChargifyHandler
      *
      * @return string
      */
-    public function postData($data)
+    public function arrayToPostData($data)
     {
         if($this->format == 'json') {
             return json_encode($data);
@@ -231,104 +198,6 @@ class ChargifyHandler
     }
 
     /**
-     * Fetch an array of objects.
-     *
-     * @param $uri
-     * @param $class
-     * @param array $query
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function fetchMultiple($uri, $class, $query = array())
-    {
-        try {
-            $response = $this->request($uri, 'GET', array(), $query);
-            return $this->serializer()->deserialize($response, $class, $this->format());
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * The Stats API is a very basic view of some Site-level stats.
-     * This is actually the source of the data that powers the Chargify To Go iPhone App
-     *
-     * This API call only answers with JSON responses. An XML version is not provided.
-     *
-     * @throws \Exception
-     */
-    public function getStats()
-    {
-        try {
-
-            $request = $this->request('/stats');
-            $response = $this->responseToArray($request);
-            return $response;
-
-        }
-        catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Find all statement Ids for the default site.
-     *
-     * Say you would like to get the 10 most recently created statements.
-     * You would specify the following optional parameters sort as created_at, direction as desc and limit your per_page to 10.
-     *
-     * If you on the other hand wish to find the oldest closed statements you could do: sort as closed_at and direction as asc.
-     *
-     * @param array $query
-     *
-     * @throws \Exception
-     * @return array of ids
-     */
-    public function getSiteStatements($query = array())
-    {
-        try {
-
-            $uri = sprintf('/statements/ids');
-
-            if(empty($query)) {
-                $response = $this->request($uri);
-            }
-            else {
-                $response = $this->request($uri, 'GET', null, http_build_query($query));
-            }
-
-            return $this->responseToArray($response);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Find a statement.
-     *
-     * @param $id
-     *
-     * @throws \Exception
-     */
-    public function findStatement($id)
-    {
-        try {
-
-            $uri = sprintf('/statements/%s', $id);
-            $response = $this->request($uri);
-            return $this->serializer()->deserialize($response, '\Litwicki\Bundle\ChargifyBundle\Model\Statement', $this->format());
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
      * Convert the response string to an array.
      *
      * @param $response
@@ -351,38 +220,6 @@ class ChargifyHandler
 
         }
         catch(\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * The “Clear Sites” API is method of allowing merchants to clear customers and subscriptions or all data from a site in TEST mode only.
-     *
-     * @param $cleanupScope
-     *          Optional, all or customers, the scope of cleanup of the site to be performed. Default is all.
-     *
-     * @throws \Exception
-     */
-    private function clearSiteData($cleanupScope = 'all')
-    {
-        try {
-
-            if($this->test_mode) {
-
-                if(!in_array($cleanupScope, ['all', 'customers'])) {
-                    throw new \Exception(sprintf('%s is not a valid Cleanup Scope: `all` or `customers`', $cleanupScope));
-                }
-
-                $uri = '/sites/clear_data';
-                return $this->request($uri, 'POST', null, http_build_query(array('cleanup_scope' => $cleanupScope)));
-
-            }
-            else {
-                throw new AccessDeniedException(sprintf('You must be in `test_mode` to clear site data for "%s."', $this->domain));
-            }
-
-        }
-        catch (\Exception $e) {
             throw $e;
         }
     }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
-use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
+use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -25,56 +24,8 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Litwicki\Bundle\ChargifyBundle\Entity\Transaction;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
-class CouponHandler extends ChargifyHandler
+class CouponHandler extends ChargifyEntityHandler
 {
-
-    /**
-     * Create a new Coupon
-     *
-     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
-     *
-     * @throws \Exception
-     */
-    public function create(Coupon $entity)
-    {
-        try {
-
-            $uri = sprintf('/coupons');
-
-            $response = $this->request($uri, 'POST', $this->serialize($entity, $this->format()));
-
-            return $this->apiResponse($response, $this->entityClass);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Find a Coupon by id.
-     *
-     * @param $id
-     *
-     * @throws \Exception
-     */
-    public function get($id)
-    {
-        try {
-
-            $uri = sprintf('/coupons/%s',
-                $id
-            );
-
-            $response = $this->request($uri);
-            return $this->apiResponse($response, $this->entityClass);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
     /**
      * Find a Coupon by code.
      *
@@ -87,10 +38,14 @@ class CouponHandler extends ChargifyHandler
     {
         try {
 
-            $uri = sprintf('/coupons/find');
             $query = array('code' => $code);
 
-            return $this->fetchMultiple($uri, $this->entityClass, $query);
+            $uri = sprintf('/coupons/find?%s',
+                http_build_query($query)
+            );
+
+            $response = $this->request($uri, 'GET');
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -99,7 +54,7 @@ class CouponHandler extends ChargifyHandler
     }
 
     /**
-     * Find a Coupon by code.
+     * Find a Coupon by Product Family.
      *
      * @param $product_family_id
      *
@@ -110,80 +65,19 @@ class CouponHandler extends ChargifyHandler
     {
         try {
 
-            $uri = sprintf('/coupons/find');
             $query = array('product_family_id' => $product_family_id);
 
-            return $this->fetchMultiple($uri, $this->entityClass, $query);
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Save/Update a Coupon.
-     *
-     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
-     *
-     * @throws \Exception
-     */
-    public function save(Coupon $entity)
-    {
-        try {
-
-            $uri = sprintf('/coupons/%s',
-                $entity->getId()
+            $uri = sprintf('/coupons/find?%s',
+                http_build_query($query)
             );
 
-            $request = $this->request($uri, 'PUT', $this->entityToPostData($entity));
-            $response = $this->responseToArray($request);
-            return $this->assignValues($entity, $response);
+            $response = $this->request($uri, 'GET');
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
             throw $e;
         }
-    }
-
-    /**
-     * Archive a Coupon.
-     *
-     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function archive(Coupon $entity)
-    {
-        try {
-
-            $uri = sprintf('/coupons/%s',
-                $entity->getId()
-            );
-
-            $request = $this->request($uri, 'DELETE', $this->serialize($entity, $this->format()));
-            $response = $this->responseToArray($request);
-
-            return $response;
-
-        }
-        catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * Alias for archive()
-     *
-     * @param \Litwicki\Bundle\ChargifyBundle\Entity\Coupon $entity
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function delete(Coupon $entity)
-    {
-        return $this->archive($entity);
     }
 
     /**
@@ -203,10 +97,8 @@ class CouponHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri);
-            $data = $this->responseToArray($request);
-
-            return $data;
+            $response = $this->request($uri, 'GET');
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -232,16 +124,19 @@ class CouponHandler extends ChargifyHandler
     {
         try {
 
-            $uri = sprintf('/coupons/validate');
             $query = array('code' => $entity->getCode());
 
             if(!is_null($entity->getProductFamilyId())) {
                 $query['product_family_id'] = $entity->getProductFamilyId();
             }
 
-            $request = $this->request($uri, 'GET', null, $query);
+            $uri = sprintf('/coupons/validate?%s',
+                http_build_query($query)
+            );
 
-            return $this->responseToArray($request);
+            $response = $this->request($uri, 'GET', null, $query);
+
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch (\Exception $e) {
@@ -267,7 +162,7 @@ class CouponHandler extends ChargifyHandler
 
             $request = $this->request($uri);
 
-            return $this->responseToArray($request);
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch(\Exception $e) {
@@ -292,10 +187,8 @@ class CouponHandler extends ChargifyHandler
                 $entity->getId()
             );
 
-            $request = $this->request($uri, 'POST', $codes);
-            $response = $this->responseToArray($request);
-
-            return $response;
+            $response = $this->request($uri, 'POST', $codes);
+            return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
         catch(\Exception $e) {

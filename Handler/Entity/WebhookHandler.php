@@ -1,6 +1,6 @@
 <?php
 
-namespace Litwicki\Bundle\ChargifyBundle\Handler;
+namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandler;
 use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
