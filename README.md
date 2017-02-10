@@ -3,10 +3,6 @@ Litwicki ChargifyBundle
 
 A bundle intending to seamlessly integrate to [Chargify](http://chargify.com) via their Api.
 
-Modern architecture along with support for both API v1 and API v2, this bundle aims to satisfy the needs of managing all the facets of your billing system in a RESTful manner.
-
-Most importantly, the abstraction of Models and Handlers for each Api component give you significant flexibility in managing your business rules separately from the API layer.
-
 ## Setup
 
 Installation and configuration requires three simple steps.
@@ -70,14 +66,30 @@ If not, you can do that by [following these instructions](http://symfony.com/doc
         tags:
             - { name: serializer.normalizer }
 
-## Testing
+## Contributing
 
-TODO.
+Thank you for considering contributing to this bundle! This bundle is in early development and is actively seeking maintainers.
 
-## Documentation
+****I am particularly interested in help with the following:****
 
-TODO.
+* Testing all the things
+* Identityfing and patching any security issues
+* Rewrite the Entity layer into agnostic Models
+* Forking/refactoring for use with Laravel
 
-## Need Help?
+## Work-In-Progress Items:
 
-If you have any questions or need help integrating Chargify into your app, contact me via [@jakelitwicki](http://twitter.com/jakelitwicki) or at [jakelitwicki.com](http://jakelitwicki.com) if you would like professional help.
++ Fix deserialization into Entity
++ Develop v2 API layer (handlers) for handling calls, signups, and card updates
++ For v2 API can we require HTTPS?
++ Build ability for saving all data locally
++ Force all submissions to pass through Form validation
++ Setup serialization groups so read_only fields aren't submitted via POST or PUT when serializing a full entity.
+
+## License
+
+This bundle is open-sourced software licensed under the MIT license.
+
+### Thanks
+
+This bundle is developed and sponsored by the team at [Zoadilack](http://www.zoadilack.com).

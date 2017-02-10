@@ -273,4 +273,38 @@ class SubscriptionHandler extends ChargifyEntityHandler
         }
     }
 
+    /**
+     * This API endpoint allows you to set certain subscription fields that are usually managed for you automatically.
+     * Some of the fields can be set via the normal Subscriptions Update API, but others can only be set using this endpoint.
+     *
+     * activated_at: Can be used to record an external signup date.
+     *  Chargify uses this field to record when a subscription first goes active (either at signup or at trial end)
+     * canceled_at: Can be used to record an external cancellation date.
+     *  Chargify sets this field automatically when a subscription is canceled, whether by request or via dunning.
+     * cancellation_message: Can be used to record a reason for the original cancellation.
+     * expires_at: Can be used to record an external expiration date.
+     *  Chargify sets this field automatically when a subscription expires (ceases billing) after a prescribed amount of time.
+     *
+     * @param Subscription $entity
+     * @return mixed
+     * @throws \Exception
+     */
+    public function override(Subscription $entity, array $parameters = array())
+    {
+        try {
+
+            $uri = sprintf('%s/%s',
+                $this->getUri(),
+                $entity->getId()
+            );
+
+            $response = $this->request($uri, 'PUT', $this->serialize($parameters));
+            return $this->apiResponse($response->getBody(), $this->entityClass);
+
+        }
+        catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
 }
