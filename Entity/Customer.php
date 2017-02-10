@@ -1,9 +1,17 @@
-<?php
+<?php namespace Litwicki\Bundle\ChargifyBundle\Entity;
 
-namespace Litwicki\Bundle\ChargifyBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\Groups;
+use Doctrine\ORM\Mapping\Table;
+use JMS\Serializer\Annotation\MaxDepth;
+
 use Litwicki\Common;
-use Litwicki\Bundle\ChargifyBundle\Handler\CustomerHandler;
+use Litwicki\Bundle\ChargifyBundle\Handler\Entity\CustomerHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 
@@ -18,77 +26,77 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 class Customer extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type
+     * @Expose
      */
     protected $id;
 
     /**
-     * @type
+     * @Expose
      */
     protected $first_name;
 
     /**
-     * @type
+     * @Expose
      */
     protected $last_name;
 
     /**
-     * @type
+     * @Expose
      */
     protected $email;
 
     /**
-     * @type
+     * @Expose
      */
     protected $organization;
 
     /**
-     * @type
+     * @Expose
      */
     protected $reference;
 
     /**
-     * @type
+     * @Expose
      */
     protected $created_at;
 
     /**
-     * @type
+     * @Expose
      */
     protected $updated_at;
 
     /**
-     * @type
+     * @Expose
      */
     protected $vat_number;
 
     /**
-     * @type
+     * @Expose
      */
     protected $address;
 
     /**
-     * @type
+     * @Expose
      */
     protected $address_2;
 
     /**
-     * @type
+     * @Expose
      */
     protected $city;
 
     /**
-     * @type
+     * @Expose
      */
     protected $state;
 
     /**
-     * @type
+     * @Expose
      */
     protected $zip;
 
     /**
-     * @type
+     * @Expose
      */
     protected $country;
 

@@ -12,7 +12,7 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyInvalidApiFormatException;
 
-class ChargifyApiHandler extends ChargifyHandler
+class ChargifyApiHandler
 {
     private $domain;
     private $test_mode;
@@ -62,6 +62,8 @@ class ChargifyApiHandler extends ChargifyHandler
      * @param string $data
      * @param array $query
      * @param bool $v2
+     *
+     * @return \Psr\Http\Message\StreamInterface
      * @throws \Exception
      */
     public function request($uri, $method = 'GET', $data = '', $query = array(), $v2 = false)
@@ -96,7 +98,7 @@ class ChargifyApiHandler extends ChargifyHandler
 
             $method = strtoupper($method);
 
-            $response = $client->request($method, $full_url, $auth);
+            $response = $client->request($method, $full_url, $auth, ['verify' => !$this->test_mode]);
 
             $code = $response->getStatusCode();
 
@@ -202,6 +204,7 @@ class ChargifyApiHandler extends ChargifyHandler
      *
      * @param $response
      *
+     * @return mixed
      * @throws \Exception
      */
     public function responseToArray($response)
@@ -239,7 +242,10 @@ class ChargifyApiHandler extends ChargifyHandler
     public function apiResponse($data, $entityClass)
     {
         try {
-            return $this->serializer->deserialize($data, $entityClass, $this->format());
+            /**
+             * @TODO: deserialize this to the Entity class.
+             */
+            return $this->responseToArray($data);
         }
         catch(\Exception $e) {
             throw $e;

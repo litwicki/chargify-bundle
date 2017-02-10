@@ -62,6 +62,7 @@ class ChargifyEntityHandler extends ChargifyApiHandler
      *
      * @param $entity
      *
+     * @return mixed
      * @throws \Exception
      */
     public function create(ChargifyEntityInterface $entity)
@@ -128,8 +129,8 @@ class ChargifyEntityHandler extends ChargifyApiHandler
                 $id
             );
 
-            $response = $this->request($uri, 'GET', array());
-            return $this->apiResponse($response->getBody(), $this->entityClass);
+            $response = $this->request($uri);
+            return $this->apiResponse($response->getContents(), $this->entityClass);
 
         }
         catch(\Exception $e) {

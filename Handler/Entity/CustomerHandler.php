@@ -4,11 +4,11 @@ namespace Litwicki\Bundle\ChargifyBundle\Handler\Entity;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler;
 use Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyHandlerInterface;
+use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
 use Litwicki\Bundle\ChargifyBundle\Entity\Adjustment;
 use Litwicki\Bundle\ChargifyBundle\Entity\Allocation;
 use Litwicki\Bundle\ChargifyBundle\Entity\Charge;
-use Litwicki\Bundle\ChargifyBundle\Entity\Component;
 use Litwicki\Bundle\ChargifyBundle\Entity\Coupon;
 use Litwicki\Bundle\ChargifyBundle\Entity\Credit;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
@@ -28,6 +28,11 @@ use Litwicki\Bundle\ChargifyBundle\Entity\Webhook;
 
 class CustomerHandler extends ChargifyEntityHandler
 {
+
+    public function getUri(ChargifyEntityInterface $entity = null)
+    {
+        return '/customers';
+    }
 
     /**
      * Set the Reference value for this Customer. By default it will be the Id, unless

@@ -16,8 +16,8 @@ services:
     chargify.entity.handler:
         class: Litwicki\Bundle\ChargifyBundle\Model\Handler\ChargifyEntityHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Model\ChargifyEntity"
-            - '/'
+            - Litwicki\Bundle\ChargifyBundle\Model\ChargifyEntity
+            - "/"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -31,8 +31,8 @@ services:
     chargify.handler.adjustment:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\AdjustmentHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Adjustment"
-            - '/adjustments'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Adjustment
+            - "/adjustments"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -46,8 +46,8 @@ services:
     chargify.handler.allocation:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\AllocationHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Allocation"
-            - '/allocations'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Allocation
+            - "/allocations"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -61,8 +61,8 @@ services:
     chargify.handler.charge:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\ChargeHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Charge"
-            - '/charges'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Charge
+            - "/charges"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -76,8 +76,8 @@ services:
     chargify.handler.component:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\ComponentHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Component"
-            - '/components'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Component
+            - "/components"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -91,8 +91,8 @@ services:
     chargify.handler.coupon:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\CouponHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Coupon"
-            - '/coupons'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Coupon
+            - "/coupons"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -106,8 +106,8 @@ services:
     chargify.handler.customer:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\CustomerHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Customer"
-            - '/customers'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Customer
+            - "/customers"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -121,8 +121,8 @@ services:
     chargify.handler.event:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\EventHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Event"
-            - '/events'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Event
+            - "/events"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -136,8 +136,8 @@ services:
     chargify.handler.invoice:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\InvoiceHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Invoice"
-            - '/invoices'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Invoice
+            - "/invoices"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -151,8 +151,8 @@ services:
     chargify.handler.product:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\ProductHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Product"
-            - '/products'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Product
+            - "/products"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -166,8 +166,8 @@ services:
     chargify.handler.product_families:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\ProductFamilyHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\ProductFamily"
-            - '/product_families'
+            - Litwicki\Bundle\ChargifyBundle\Entity\ProductFamily
+            - "/product_families"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -181,8 +181,8 @@ services:
     chargify.handler.subscription:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\SubscriptionHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Subscription"
-            - '/subscriptions'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Subscription
+            - "/subscriptions"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -196,8 +196,8 @@ services:
     chargify.handler.transaction:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\TransactionHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Transaction"
-            - '/transactions'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Transaction
+            - "/transactions"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
@@ -211,8 +211,8 @@ services:
     chargify.handler.webhook:
         class: Litwicki\Bundle\ChargifyBundle\Handler\Entity\WebhookHandler
         arguments:
-            - "Litwicki\Bundle\ChargifyBundle\Entity\Webhook"
-            - '/webhooks'
+            - Litwicki\Bundle\ChargifyBundle\Entity\Webhook
+            - "/webhooks"
             - "%chargify.domain%"
             - "%chargify.api_id%"
             - "%chargify.api_secret%"
