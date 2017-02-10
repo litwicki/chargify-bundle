@@ -70,7 +70,7 @@ If not, you can do that by [following these instructions](http://symfony.com/doc
 
 Thank you for considering contributing to this bundle! This bundle is in early development and is actively seeking maintainers.
 
-****I am particularly interested in help with the following:****
+***I am particularly interested in help with the following:***
 
 * Testing all the things
 * Identityfing and patching any security issues
