@@ -3,6 +3,13 @@ Litwicki ChargifyBundle
 
 A bundle intending to seamlessly integrate to [Chargify](http://chargify.com) via their Api.
 
+![Development Status](https://img.shields.io/badge/development-active-green.svg) ![Seeking Maintainers](https://img.shields.io/badge/contributors-2-red.svg) ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
+![Build](https://img.shields.io/badge/maintainability-54-orange.svg) ![Accessibility](https://img.shields.io/badge/accessibility-69-blue.svg)  ![Simplicity](https://img.shields.io/badge/simplicity-75-green.svg) ![Bugs](https://img.shields.io/badge/bug_probability_reduction-46-orange.svg) 
+
+![Symfony](https://img.shields.io/badge/Symfony-3.*-green.svg) ![Laravel](https://img.shields.io/badge/Laravel-5.3.*-red.svg) ![PHP](https://img.shields.io/badge/PHP-7.*-blue.svg)
+
+
 ## Setup
 
 Installation and configuration requires three simple steps.
