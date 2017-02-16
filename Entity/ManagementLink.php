@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -30,27 +30,37 @@ class ManagementLink extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $url;
     
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $fetch_count;
     
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $created_at;
     
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $new_link_available_at;
     
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $expires_at;
 

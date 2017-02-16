@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -21,32 +21,35 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
  */
 class Invoice extends ChargifyEntity implements ChargifyEntityInterface
 {
-    /**
-     * @type int
-     * The invoice unique id within Chargify
-     */
-    protected $id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The subscription unique id within Chargify
      */
     protected $subscription_id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The statement unique id within Chargify
      */
     protected $statement_id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The site unique id within Chargify
      */
     protected $site_id;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * The current state of the subscription associated with this invoice.
      * Please see the documentation for Subscription States
      * @see: https://docs.chargify.com/subscription-states
@@ -54,52 +57,52 @@ class Invoice extends ChargifyEntity implements ChargifyEntityInterface
     protected $state;
 
     /**
-     * @type float
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      * Gives the current invoice amount in the number of cents (ie. the sum of charges)
      */
     protected $total_amount_in_cents;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * The date/time when the invoice was paid in full
      */
     protected $paid_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * The creation date/time for this invoice
      */
     protected $created_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * The date/time of last update for this invoice
      */
     protected $updated_at;
 
     /**
-     * @type float
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * Gives the current outstanding invoice balance in the number of cents
      */
     protected $amount_due_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The unique (to this site) identifier for this invoice
      */
     protected $number;
-
-    /**
-     * @type collection
-     * A list of charges applied to this invoice
-     */
-    protected $charges;
-
-    /**
-     * @type collection
-     * A list of the financial transactions that modify the amount due
-     */
-    protected $payments_and_credits;
 
     /**
      * @return mixed

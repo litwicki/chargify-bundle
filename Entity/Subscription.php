@@ -10,14 +10,12 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
 use Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
-
-use Symfony\Component\Serializer;
 
 /**
  * Class Subscription
@@ -26,28 +24,28 @@ use Symfony\Component\Serializer;
  */
 class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 {
-
     /**
-     * @type int
-     */
-    protected $id;
-
-    /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * The API Handle of the product for which you are creating a subscription.
      * Required, unless a product_id is given instead.
      */
     protected $product_handle;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The Product ID of the product for which you are creating a subscription.
      * The product ID is not currently published, so we recommend using the API Handle instead.
      */
     protected $product_id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The ID of an existing customer within Chargify.
      * Required, unless a customer_reference or a set of customer_attributes is given.
      */
@@ -76,20 +74,26 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $customer_attributes;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * The reference value (provided by your app) of an existing customer within Chargify.
      * Required, unless a customer_id or a set of customer_attributes is given.
      */
     protected $customer_reference;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional but recommended when creating a subscription with ACH) The ACH agreements terms.
      */
     protected $agreement_terms;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional, used only for Delayed Product Change) When set to true, indicates that a changed value for product_handle
      * should schedule the product change to the next subscription renewal.
      */
@@ -102,14 +106,24 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $calendar_billing;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * A value between 1 and 28, or “end”
      */
     protected $snap_day;
+
+    /**
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
+     */
     protected $ref;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription.
      * If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription,
      * use payment_profile_attributes instead to create a new payment profile along with the subscription. (This value is available on an existing
@@ -118,60 +132,27 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $payment_profile_id;
 
     /**
-     * @type \Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile
-     */
-    protected $payment_profile;
-
-    /**
-     * @type mixed
-     * payment_profile_attributes (this may also be referred to as credit_card_attributes or bank_account_attributes)
-     * first_name (Optional) First name on card or bank account. If omitted, the first_name from customer attributes will be used.
-     * last_name (Optional) Last name on card or bank account. If omitted, the last_name from customer attributes will be used.
-     * full_number The full credit card number (string representation, i.e. “5424000000000015”)
-     * expiration_month (Optional when performing a Subscription Import via `vault_token`, required otherwise) The 1- or 2-digit credit card expiration month, as an integer or string, i.e. “5”
-     * expiration_year (Optional when performing a Subscription Import via `vault_token`, required otherwise) The 4-digit credit card expiration year, as an integer or string, i.e. “2012”
-     * cvv (Optional, may be required by your gateway settings) The 3- or 4-digit Card Verification Value. This value is merely passed through to the payment gateway.
-     * billing_address (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing street address (i.e. “123 Main St.”). This value is merely passed through to the payment gateway.
-     * billing_address_2 (Optional) Second line of the customer’s billing address i.e. “Apt. 100”
-     * billing_city (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address city (i.e. “Boston”). This value is merely passed through to the payment gateway.
-     * billing_state (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address state (i.e. “MA”). This value is merely passed through to the payment gateway.
-     * billing_zip (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address zip code (i.e. “12345”). This value is merely passed through to the payment gateway.
-     * billing_country (Optional, may be required by your product configuration or gateway settings) The credit card or bank account billing address country, preferably in ISO 3166-1 alpha-2 format (i.e. “US”). This value is merely passed through to the payment gateway. Some gateways require country codes in a specific format. Please check your gateway’s documentation. If creating an ACH subscription, only US is supported at this time.
-     * vault_token (Optional, used only for Subscription Import) The “token” provided by your vault storage for an already stored payment profile
-     * customer_vault_token (Optional, used only for Subscription Import) (only for Authorize.Net CIM storage) The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
-     * current_vault (Optional, used only for Subscription Import) The vault that stores the payment profile with the provided vault_token. May be authorizenet, trust_commerce, payment_express, beanstream, braintree1, braintree_blue, paypal, quickpay, eway, samurai, stripe, or wirecard
-     * last_four (Optional, used only for Subscription Import) If you have the last 4 digits of the credit card number, you may supply them here so that we may create a masked card number (i.e. ‘XXXX-XXXX-XXXX-1234’) for display in the UI
-     * card_type (Optional, used only for Subscription Import) If you know the card type (i.e. Visa, MC, etc) you may supply it here so that we may display the card type in the UI. May be visa, master, discover, american_express, diners_club, jcb, switch, solo, dankort, maestro, forbrugsforeningen, or laser
-     * bank_name (Required when creating a subscription with ACH) The name of the bank where the customer’s account resides
-     * bank_routing_number (Required when creating a subscription with ACH) The routing number of the bank
-     * bank_account_number (Required when creating a subscription with ACH) The customer’s bank account number
-     * bank_account_type (Required when creating a subscription with ACH) Either checking or savings
-     * bank_account_holder_type (Required when creating a subscription with ACH) Either personal or business
-     */
-    protected $payment_profile_attributes;
-
-    /**
-     * @type collection
-     * (Optional) An array of component ids and quantities to be added to the subscription. See API Quantity Component Allocations for more information.
-     */
-    protected $components;
-
-    /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional) Supplying the VAT number allows EU customer’s to opt-out of the Value Added Tax assuming the merchant
      * address and customer billing address are not within the same EU country.
      */
     protected $vat_number;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional, default false) When set to true, and when next_billing_at is present, if the subscription expires,
      * the expires_at will be shifted by the same amount of time as the difference between the old and new “next billing” dates.
      */
     protected $expiration_tracks_next_billing_change;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule.
      * See the notes on “Date/Time Format” below. If you provide a next_billing_at timestamp that is in the future, no trial
      * or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all.
@@ -187,128 +168,170 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
      *  ==================*/
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * (Read Only) Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)
      */
     protected $activated_at;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  Gives the current outstanding subscription balance in the number of cents.
      */
     protected $balance_in_cents;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * Whether or not the subscription will (or has) canceled at the end of the period.
      */
     protected $cancel_at_end_of_period;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * The timestamp of the most recent cancellation
      */
     protected $canceled_at;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * Seller-provided reason for, or note about, the cancellation.
      */
     protected $cancellation_message;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * The coupon code of the coupon currently applied to the subscription
      */
     protected $coupon_code;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  The creation date for this subscription
      */
     protected $created_at;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The vault that stores the payment profile with the provided vault_token.
      * May be authorizenet, trust_commerce, payment_express, beanstream, braintree1, braintree_blue, paypal, quickpay, eway, samurai, stripe, or wirecard
      */
     protected $current_vault;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
      */
     protected $customer_vault_token;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  An integer representing the expiration month of the card(1 – 12)
      */
     protected $expiration_month;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  An integer representing the 4-digit expiration year of the card(i.e. ‘2012’)
      */
     protected $expiration_year;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’)
      */
     protected $masked_card_number;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The “token” provided by your vault storage for an already stored payment profile
      */
     protected $vault_token;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string representation of the stored bank account number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
      */
     protected $masked_bank_account_number;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
      */
     protected $masked_bank_routing_number;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * Will be bank_account
      */
     protected $payment_type;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp relating to the start of the current (recurring) period
      */
     protected $current_period_started_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp relating to the end of the current (recurring) period (i.e. when the next regularly scheduled attempted charge will occur)
      */
     protected $current_period_ends_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp for when the subscription is currently set to cancel.
      */
     protected $delayed_cancel_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp giving the expiration date of this subscription (if any)
      */
     protected $expires_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp that indicates when capture of payment will be tried or retried.
      * This value will usually track the current_period_ends_at, but will diverge if a renewal payment fails and must be retried.
      * In that case, the current_period_ends_at will advance to the end of the next period (time doesn’t stop because a payment was missed)
@@ -317,20 +340,26 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $next_assessment_at;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The type of payment collection to be used in the subscription. May be automatic, or invoice.
      */
     protected $payment_collection_method;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  Only valid for webhook payloads The previous state for webhooks that have indicated a change in state.
      * For normal API calls, this will always be the same as the state (current state)
      */
     protected $previous_state;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * (Added Nov 5 2013) The recurring amount of the product (and version) currently subscribed.
      * NOTE: this may differ from the current price of the product, if you’ve changed the price of the product
      * but haven’t moved this subscription to a newer version.
@@ -338,7 +367,9 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $product_price_in_cents;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * (Added Nov 5 2013) The version of the product currently subscribed.
      * NOTE: we have not exposed versions (yet) elsewhere in the API, but if you change the price of your product
      * the versions will increment and existing subscriptions will remain on prior versions (by default, to support price grandfathering).
@@ -346,49 +377,65 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     protected $product_version_number;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The ID of the transaction that generated the revenue
      */
     protected $signup_payment_id;
 
     /**
-     * @type
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      *  The revenue, formatted as a string of decimal separated dollars and cents, from the subscription signup ($50.00 would be formatted as 50.00)
      */
     protected $signup_revenue;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The current state of the subscription. Please see the documentation for Subscription States
      */
     protected $state;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  Gives the total revenue from the subscription in the number of cents.
      */
     protected $total_revenue_in_cents;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp for when the trial period (if any) began
      */
     protected $trial_started_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp for when the trial period (if any) ended
      */
     protected $trial_ended_at;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  The date of last update for this subscription
      */
     protected $updated_at;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal.
      */
     protected $next_product_id;

@@ -1,9 +1,18 @@
 <?php
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Entity;
-use Doctrine\ORM\Mapping as ORM;
-use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyInvalidComponentKindException;
-use Litwicki\Common;
+
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
+
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -11,16 +20,9 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
  * Class Component
  *
  * @package Litwicki\Bundle\ChargifyBundle\Entity
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @orm\Table(name="ChargifyComponent")
  */
 class ChargifyComponentEntity extends ChargifyEntity implements ChargifyEntityInterface
 {
-    /**
-     * @type
-     */
-    protected $id;
 
     /**
      * @type

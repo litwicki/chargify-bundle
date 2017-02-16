@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyComponentEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 

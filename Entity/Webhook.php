@@ -1,7 +1,16 @@
 <?php
 
 namespace Litwicki\Bundle\ChargifyBundle\Entity;
-use Litwicki\Common;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -12,71 +21,85 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
  */
 class Webhook extends ChargifyEntity implements ChargifyEntityInterface
 {
-    /**
-     * @type int
-     *  The unique identifier for the webhooks (unique across all of Chargify).
-     * This is not changed on a retry/replay of the same webhook, so it may be used to avoid duplicate action for the same event.
-     */
-    protected $id;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      *  A boolean flag describing whether the webhook was accepted by the webhook endpoint for the most recent attempt.
      * (Acceptance is defined by receiving a “200 OK” HTTP response within a reasonable timeframe, i.e. 15 seconds)
      */
     protected $successful;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string describing which event type produced the given Webhook
      */
     protected $event;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The data sent within the Webhook post
      */
     protected $body;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The calculated Webhook signature
      */
     protected $signature;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when the Webhook was created
      */
     protected $created_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when the Webhook was accepted by the merchant endpoint.
      * When a webhook is explicitly replayed by the merchant, this value will be cleared until it is accepted again.
      */
     protected $accepted_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when the most recent attempt was made to send the Webhook
      */
     protected $last_sent_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when the last non-acceptance occurred. If a webhooks is later resent and accepted, this field will be cleared.
      */
     protected $last_error_at;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The url that the endpoint was last sent to.
      */
     protected $last_sent_url;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  Text describing the status code and/or error from the last failed attempt to send the Webhook.
      * When a webhook is retried and accepted, this field will be cleared.
      */

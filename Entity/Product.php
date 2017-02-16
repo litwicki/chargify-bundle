@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -21,134 +21,171 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
  */
 class Product extends ChargifyEntity implements ChargifyEntityInterface
 {
-    /**
-     * @type
-     *  The id of the signup page
-     */
-    protected $id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The product price, in integer cents
      */
     protected $price_in_cents;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The product name
      */
     protected $name;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The product API handle
      */
     protected $handle;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The product description
      */
     protected $description;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  Nested attributes pertaining to the product family to which this product belongs
      */
     protected $product_family;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The product family accounting code (has no bearing in Chargify, may be used within your app)
      */
     protected $accounting_code;
 
     /**
-    * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string representing the interval unit for this product, either month or day
      */
     protected $interval_unit;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The numerical interval. i.e. an interval of ‘30’ coupled with an interval_unit of ‘day’ would mean this product would renew every 30 days
      */
     protected $interval;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The up front charge you have specified.
      */
     protected $initial_charge_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The price of the trial period for a subscription to this product, in integer cents.
      */
     protected $trial_price_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  A numerical interval for the length of the trial period of a subscription to this product.
      * See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
      */
     protected $trial_interval;
 
     /**
-     * @type string
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  A string representing the trial interval unit for this product, either month or day
      */
     protected $trial_interval_unit;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  A numerical interval for the length a subscription to this product will run before it expires.
      * See the description of interval for a description of how this value is coupled with an interval unit to calculate the full interval
      */
     protected $expiration_interval;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * A string representing the trial interval unit for this product, either month or day
      */
     protected $expiration_interval_unit;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The version of the product
      */
     protected $version_number;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * The parameters string we will use in constructing your return URL. See the section on “Return URLs and Parameters” here
      */
     protected $return_params;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $require_credit_card;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $request_credit_card;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * Timestamp indicating when this product was created
      */
     protected $created_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when this product was last updated
      */
     protected $updated_at;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when this product was archived
      */
     protected $archived_at;
@@ -161,46 +198,62 @@ class Product extends ChargifyEntity implements ChargifyEntityInterface
     protected $public_signup_pages;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The url where the signup page can be viewed
      */
     protected $url;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The url to which a customer will be returned after a successful signup
      */
     protected $return_url;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The ID of the product family to which the product belongs.
      */
     protected $product_family_id;
 
     /**
-     * @type boolean
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $require_billing_address;
 
     /**
-     * @type boolean
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $request_billing_address;
 
     /**
-     * @type boolean
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $taxable;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The type of trial for this product, either no_obligation or payment_expected.
      */
     protected $trial_type;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A true or false value (default true) indicating whether or not you want a Public Page"
      * to be automatically created for this product return_url If auto_create_signup_page is true,
      * this will set the url to which a customer will be returned after a successful signup for the auto-created signup page.

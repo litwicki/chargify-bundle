@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -28,7 +28,9 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class Migration extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The ID or handle of the target Product.
      * A Subscription can be migrated to another product for both the current Product Family and another Product Family.
      *
@@ -37,46 +39,60 @@ class Migration extends ChargifyEntity implements ChargifyEntityInterface
     protected $product_id;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * Boolean, default 0. If 1 is sent the customer will migrate to the new product with a trial if one is available.
      * If 0 is sent, the trial period will be ignored.
      */
     protected $product_handle;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * Boolean, default 0. If 1 is sent initial charges will be assessed.
      * If 0 is sent initial charges will be ignored.
      */
     protected $include_trial;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * Boolean, default 1. If 1 (or nothing) is sent, any coupons associated with the subscription will be applied to the migration.
      * If 0 is sent, coupons will not be applied.
      */
     protected $include_coupons;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  Integer, The amount of the prorated adjustment that would be issued for the current subscription.
      */
     protected $prorated_adjustment_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  Integer, The amount of the charge that would be created for the new product.
      */
     protected $charge_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * Integer, The amount of the payment due in the case of an upgrade.
      */
     protected $payment_due_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * Integer, The amount of the credit that would be left in the case of a downgrade.
      */
     protected $credit_applied_in_cents;

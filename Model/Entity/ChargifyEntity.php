@@ -2,8 +2,15 @@
 
 namespace Litwicki\Bundle\ChargifyBundle\Model\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
 
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
@@ -13,11 +20,15 @@ class ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $id;
 
     /**
      * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $chargify_id;
 

@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -22,49 +22,65 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class RenewalPreview extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      * The timestamp for the subscription’s next renewal
      */
     protected $next_assessment_at;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the amount of the subscription’s current balance
      */
     protected $existing_balance_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the amount of the total pre-tax, pre-discount charges that will be assessed at the next renewal
      */
     protected $subtotal_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the amount of the coupon discounts that will be applied to the next renewal
      */
     protected $total_discount_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the total tax charges that will be assessed at the next renewal
      */
     protected $total_tax_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the total amount owed, less any discounts, that will be assessed at the next renewal
      */
     protected $total_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * An integer representing the existing_balance_in_cents plus the total_in_cents
      */
     protected $total_amount_due_in_cents;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * A boolean indicating whether or not additional taxes will be calculated at the time of renewal.
      * This will be true if you are using Avalara and the address of the subscription is in one of your defined taxable regions.
      */

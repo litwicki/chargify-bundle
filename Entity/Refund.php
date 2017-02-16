@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -21,20 +21,18 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
  */
 class Refund extends ChargifyEntity implements ChargifyEntityInterface
 {
-
     /**
-     * @type
-     */
-    protected $id;
-
-    /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      * Either true or false, depending on the success of the refund.
      */
     protected $success;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * (either ‘amount’ or ‘amount_in_cents’ is required)
      * If you use this parameter, you should pass the amount
      * represented as a number of cents, either as a string or integer.
@@ -45,20 +43,26 @@ class Refund extends ChargifyEntity implements ChargifyEntityInterface
     protected $amount_in_cents;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * (required) A helpful explanation for the refund.
      * This amount will remind you and your customer for the reason for the refund.
      */
     protected $memo;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  (required) The id of the Payment that the credit will be applied to
      */
     protected $payment_id;
 
     /**
-     * @type mixed
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      *  (either ‘amount’ or ‘amount_in_cents’ is required)
      * If you use this parameter, you should pass a dollar amount represented as a string.
      * For example, $10.00 would be represented as 10.00.

@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -23,59 +23,93 @@ class Payment extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**
-     * @type
-     */
-    protected $id;
-    /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $amount_in_cents;
+
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $created_at;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $ending_balance_in_cents;
+
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $kind;
+
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $memo;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $payment_id;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $product_id;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $starting_balance_in_cents;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $subscription_id;
+
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $success;
+
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $type;
+
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $trasnaction_type;
+
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $gateway_transaction_id;
 

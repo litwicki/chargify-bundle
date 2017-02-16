@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -23,13 +23,9 @@ class Transaction extends ChargifyEntity implements ChargifyEntityInterface
 {
 
     /**
-     * @type int
-     *  The unique identifier for the Transaction
-     */
-    protected $id;
-
-    /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The type of the transaction
      *
      * charge
@@ -43,55 +39,73 @@ class Transaction extends ChargifyEntity implements ChargifyEntityInterface
     protected $transaction_type;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The amount in cents of the Transaction
      */
     protected $amount_in_cents;
 
     /**
-     * @type datetime
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      *  Timestamp indicating when the Transaction was created
      */
     protected $created_at;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The initial balance on the subscription before the Transaction has been processed
      */
     protected $starting_balance_in_cents;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The remaining balance on the subscription after the Transaction has been processed
      */
     protected $ending_balance_in_cents;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  A note about the Transaction
      */
     protected $memo;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The unique identifier for the associated Subscription
      */
     protected $subscription_id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The unique identifier for the product associated with the Subscription
      */
     protected $product_id;
 
     /**
-     * @type bool
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      *  Whether or not the Transaction was successful
      */
     protected $success;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      * The unique identifier for the payment being explicitly refunded (in whole or in part) by this transaction.
      * Will be null for all transaction types except for “Refund”. May be null even for Refunds. For partial refunds,
      * more than one Refund transaction may reference the same payment_id.
@@ -99,7 +113,9 @@ class Transaction extends ChargifyEntity implements ChargifyEntityInterface
     protected $payment_id;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  The specific “subtype” for the transaction_type
      *
      * one_time: A one-time charge, captured immediately from payment source (credit card)
@@ -113,13 +129,17 @@ class Transaction extends ChargifyEntity implements ChargifyEntityInterface
     protected $kind;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The transaction ID from the remote gateway (i.e. Authorize.Net), if one exists
      */
     protected $gateway_transaction_id;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  A gateway-specific identifier for the transaction, separate from the gateway_transaction_id:
      */
     protected $gateway_order_id;

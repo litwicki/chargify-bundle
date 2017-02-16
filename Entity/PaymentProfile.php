@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common;
+use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -22,56 +22,74 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      * (Optional) Default is credit_card. May be bank_account or credit_card.
      */
     protected $payment_type;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Required when creating a new payment profile) The Chargify customer id.
      */
     protected $customer_id;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  First name on card or bank account.
      */
     protected $first_name;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  Last name on card or bank account.
      */
     protected $last_name;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The full credit card number (string representation, i.e. “5424000000000015”)
      */
     protected $full_number;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The 1- or 2-digit credit card expiration month, as an integer or string, i.e. “5”
      */
     protected $expiration_month;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  The 4-digit credit card expiration year, as an integer or string, i.e. “2012”
      */
     protected $expiration_year;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your gateway settings) The 3- or 4-digit Card Verification Value.
      * This value is merely passed through to the payment gateway.
      */
     protected $cvv;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your product configuration or gateway settings)
      * The credit card or bank account billing street address (i.e. “123 Main St.”).
      * This value is merely passed through to the payment gateway.
@@ -79,13 +97,17 @@ class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
     protected $billing_address;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional) Second line of the customer’s billing address i.e. “Apt. 100”
      */
     protected $billing_address_2;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your product configuration or gateway settings)
      * The credit card or bank account billing address city (i.e. “Boston”).
      * This value is merely passed through to the payment gateway.
@@ -93,7 +115,9 @@ class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
     protected $billing_city;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your product configuration or gateway settings)
      * The credit card or bank account billing address state (i.e. “MA”).
      * This value is merely passed through to the payment gateway.
@@ -101,7 +125,9 @@ class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
     protected $billing_state;
 
     /**
-     * @type int
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your product configuration or gateway settings)
      * The credit card or bank account billing address zip code (i.e. “12345”).
      * This value is merely passed through to the payment gateway.
@@ -109,7 +135,9 @@ class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
     protected $billing_zip;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Optional, may be required by your product configuration or gateway settings)
      * The credit card or bank account billing address country, preferably in [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format (i.e. “US”).
      * This value is merely passed through to the payment gateway.
@@ -120,25 +148,33 @@ class PaymentProfile extends ChargifyEntity implements ChargifyEntityInterface
     protected $billing_country;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Required when creating a subscription with ACH) The name of the bank where the customer’s account resides
      */
     protected $bank_name;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Required when creating a subscription with ACH) The routing number of the bank
      */
     protected $bank_routing_number;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  (Required when creating a subscription with ACH) The customer’s bank account number
      */
     protected $bank_account_number;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      *  When payment_type is bank_account, this defaults to checking and cannot be changed
      */
     protected $bank_account_type;
