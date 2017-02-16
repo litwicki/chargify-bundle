@@ -22,88 +22,115 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class ComponentQty extends ChargifyComponentEntity implements ChargifyEntityInterface
 {
     /**
-     * @type
-     */
-    protected $id;
-
-    /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $description;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $product_family_id;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $kind;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $archived;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $name;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $taxable;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $unit_name;
 
     /**
-     * @type
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $unit_price;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $pricing_scheme;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $prices;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $subscription_id;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $component_id;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $allocated_quantity;
 
     /**
-     * @type int
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      *
      */
     protected $quantity;
 
     /**
-     * @type string
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $memo;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $unit_balance;
 
@@ -114,6 +141,7 @@ class ComponentQty extends ChargifyComponentEntity implements ChargifyEntityInte
      */
     public function __construct($subscription_id)
     {
+        parent::__construct($subscription_id);
         $this->subscription_id = $subscription_id;
     }
 

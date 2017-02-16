@@ -19,7 +19,6 @@ use JMS\Serializer\Annotation\SerializedName;
 
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
-use Doctrine\ORM\Mapping as ORM;
 
 
 /**

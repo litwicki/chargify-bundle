@@ -25,77 +25,100 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class Charge extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type
-     */
-    protected $id;
-
-    /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $success;
 
     /**
-     * @type
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $amount;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $memo;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $amount_in_cents;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $ending_balance_in_cents;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $type;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $subscription_id;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $product_id;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $created_at;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $payment_id;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $use_negative_balance;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $delay_capture;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $taxable;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $payment_collection_method;
 

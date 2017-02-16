@@ -22,67 +22,74 @@ use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 class Coupon extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
-     * @type
-     */
-    protected $id;
-
-    /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $name;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $code;
 
     /**
-     * @type
+     * @Type("string")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $description;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $percentage;
 
     /**
-     * @type
+     * @Type("float")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $amount;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $allow_negative_balance;
 
     /**
-     * @type
+     * @Type("boolean")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $recurring;
 
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $duration_period_count;
 
     /**
-     * @type
+     * @Type("datetime")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $coupon_end_date;
     
     /**
-     * @type
+     * @Type("integer")
+	 * @Groups({"api"})
+	 * @Expose
      */
     protected $product_family_id;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container = NULL)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @return mixed
@@ -252,8 +259,4 @@ class Coupon extends ChargifyEntity implements ChargifyEntityInterface
         $this->recurring = $recurring;
     }
 
-    public function create()
-    {
-
-    }
 }

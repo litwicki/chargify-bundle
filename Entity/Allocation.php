@@ -30,22 +30,67 @@ use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleExceptio
  */
 class Allocation extends ChargifyEntity implements ChargifyEntityInterface
 {
+    /**
+     * @Type("integer")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $previous_quantity;
 
+    /**
+     * @Type("datetime")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $timestamp;
 
+    /**
+     * @Type("integer")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $subscription_id;
 
+    /**
+     * @Type("integer")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $component_id;
 
+    /**
+     * @Type("integer")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $quantity;
 
+    /**
+     * @Type("string")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $memo;
 
+    /**
+     * @Type("string")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $proration_upgrade_scheme;
 
+    /**
+     * @Type("string")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $proration_downgrade_scheme;
 
+    /**
+     * @Type("string")
+     * @Groups({"api"})
+     * @Expose
+     */
     protected $payment_collection_method;
 
     /**
