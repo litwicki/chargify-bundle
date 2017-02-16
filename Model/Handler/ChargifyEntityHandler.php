@@ -77,6 +77,17 @@ class ChargifyEntityHandler extends ChargifyApiHandler
     }
 
     /**
+     * Alias for update()
+     *
+     * @param ChargifyEntityInterface $entity
+     * @return mixed
+     */
+    public function post(ChargifyEntityInterface $entity)
+    {
+        return $this->create($entity);
+    }
+
+    /**
      * Update (PUT) an Entity.
      *
      * @param ChargifyEntityInterface $entity
@@ -167,14 +178,14 @@ class ChargifyEntityHandler extends ChargifyApiHandler
     /**
      * Delete an Entity.
      *
-     * @param $id
+     * @param $entity
      * @return mixed
      * @throws \Exception
      */
-    public function delete($id)
+    public function delete(ChargifyEntityInterface $entity)
     {
         try {
-            $uri = sprintf("%s/%s", $this->getUri(), $id);
+            $uri = sprintf("%s/%s", $this->getUri(), $entity->getId());
             $response = $this->request($uri, 'GET', array());
             return $this->apiResponse($response->getReasonPhrase(), $this->entityClass);
         }

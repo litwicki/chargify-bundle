@@ -3,11 +3,9 @@ Litwicki ChargifyBundle
 
 A bundle intending to seamlessly integrate to [Chargify](http://chargify.com) via their Api.
 
-![Development Status](https://img.shields.io/badge/development-active-green.svg) ![Seeking Maintainers](https://img.shields.io/badge/contributors-2-red.svg) ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Development Status](https://img.shields.io/badge/development-active-green.svg) ![Seeking Maintainers](https://img.shields.io/badge/contributors-2-red.svg) ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Symfony](https://img.shields.io/badge/Symfony-3.*-green.svg) ![PHP](https://img.shields.io/badge/PHP-7.*-blue.svg)
 
 ![Build](https://img.shields.io/badge/maintainability-54-orange.svg) ![Accessibility](https://img.shields.io/badge/accessibility-69-blue.svg)  ![Simplicity](https://img.shields.io/badge/simplicity-75-green.svg) ![Bugs](https://img.shields.io/badge/bug_probability_reduction-46-orange.svg) 
-
-![Symfony](https://img.shields.io/badge/Symfony-3.*-green.svg) ![Laravel](https://img.shields.io/badge/Laravel-5.3.*-red.svg) ![PHP](https://img.shields.io/badge/PHP-7.*-blue.svg)
 
 
 ## Setup
@@ -72,6 +70,45 @@ If not, you can do that by [following these instructions](http://symfony.com/doc
         class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
         tags:
             - { name: serializer.normalizer }
+            
+## Usage
+
+This Bundle functions as a middle-tier layer between your Symfony app and Chargify. The handler for each entity leverages the available RESTful operations available.
+
+Please make sure to reference the [Chargify Api Docs](https://reference.chargify.com/) for available parameters for each object.
+
+### `GET` - Find an object.
+
+    //example load a Subscription by Id.
+    $id = 12345;
+    $handler = $this->get('chargify.handler.subscription');
+    $subscription = $handler->get($id);
+    
+### `POST` - Create a new object.
+
+    //let's create an example customer
+    $data = array(
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'email' => 'john.doe@example.com'
+    );
+    
+    $handler = $this->get('chargify.handler.customer');
+    $customer = $handler->post($data);
+    
+### `PUT` - Updating an existing object.
+
+Let's update the customer record we just created (example above).
+
+    //...
+    $customer->setFirstName('Jonathan');
+    $customer = $handler->put($customer);
+    
+### `DELETE` - Remove an object.
+
+We changed our mind, let's remove this customer.
+
+    $response = $handler->delete($customer);
 
 ## Contributing
 
@@ -81,15 +118,11 @@ Thank you for considering contributing to this bundle! This bundle is in early d
 
 * Testing all the things
 * Identityfing and patching any security issues
-* Rewrite the Entity layer into agnostic Models
-* Forking/refactoring for use with Laravel
+* Ongoing support and improvements
 
 ## Work-In-Progress Items:
 
-+ Fix deserialization into Entity
 + Develop v2 API layer (handlers) for handling calls, signups, and card updates
-+ For v2 API can we require HTTPS?
-+ Build ability for saving all data locally
 + Force all submissions to pass through Form validation
 + Setup serialization groups so read_only fields aren't submitted via POST or PUT when serializing a full entity.
 

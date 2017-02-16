@@ -12,6 +12,8 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 
+use Litwicki\Common\Common;
+
 use Litwicki\Bundle\ChargifyBundle\Exception\ChargifyMethodNotAccessibleException;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -24,13 +26,6 @@ class ChargifyEntity implements ChargifyEntityInterface
 	 * @Expose
      */
     protected $id;
-
-    /**
-     * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     */
-    protected $chargify_id;
 
     /**
      * Get the base name of the class as the root element for XML requests.
@@ -48,25 +43,11 @@ class ChargifyEntity implements ChargifyEntityInterface
     }
 
     /**
-     * Allow the soft "set" of an Id, but don't allow setting the id if one is already
-     * established, to avoid PK conflicts and other silliness.
-     *
-     * @param $id
-     *
-     * @throws \Exception
+     * @return mixed
      */
-    public function setChargifyId($id)
+    public function getId()
     {
-        if(is_numeric($this->id) && $this->id != $id) {
-            throw new \Exception(sprintf('Cannot reassign Identifier for %s.', get_class($this)));
-        }
-
-        $this->id = $id;
-    }
-
-    public function getChargifyId()
-    {
-        return $this->chargify_id;
+        return $this->id;
     }
 
     /**
