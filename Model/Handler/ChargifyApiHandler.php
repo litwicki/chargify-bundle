@@ -26,7 +26,7 @@ class ChargifyApiHandler
     private $api_password;
     private $api_key;
     private $format;
-    private $uri;
+    protected $uri;
 
     protected $entityClass;
     protected $serializer;
