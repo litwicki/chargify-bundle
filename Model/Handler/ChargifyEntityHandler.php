@@ -69,7 +69,7 @@ class ChargifyEntityHandler extends ChargifyApiHandler
     {
         try {
             $response = $this->request($this->getUri($entity), 'POST', $this->serializer->serialize($this->getSerializableEntityArray($entity), $this->format()));
-            return $this->apiResponse($response, $this->entityClass);
+            return $this->apiResponse($response->getContents(), $this->entityClass);
         }
         catch(\Exception $e) {
             throw $e;
