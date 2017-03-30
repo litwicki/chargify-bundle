@@ -68,7 +68,7 @@ class ChargifyEntityHandler extends ChargifyApiHandler
     public function create(ChargifyEntityInterface $entity)
     {
         try {
-            $response = $this->request($this->getUri($entity), 'POST', $this->serialize($entity));
+            $response = $this->request($this->getUri($entity), 'POST', $this->serializer->serialize($this->getSerializableEntityArray($entity), $this->format()));
             return $this->apiResponse($response, $this->entityClass);
         }
         catch(\Exception $e) {
@@ -103,7 +103,8 @@ class ChargifyEntityHandler extends ChargifyApiHandler
                 $entity->getChargifyId()
             );
 
-            $response = $this->request($uri, 'PUT', $this->serialize($entity));
+            $response = $this->request($uri, 'PUT', $this->serializer->serialize($this->getSerializableEntityArray($entity), $this->format()));
+
             return $this->apiResponse($response->getBody(), $this->entityClass);
 
         }
@@ -188,6 +189,24 @@ class ChargifyEntityHandler extends ChargifyApiHandler
             $uri = sprintf("%s/%s", $this->getUri(), $entity->getId());
             $response = $this->request($uri, 'GET', array());
             return $this->apiResponse($response->getReasonPhrase(), $this->entityClass);
+        }
+        catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Return an array formatted for use in the API
+     *
+     * @param $entity
+     * @return array
+     * @throws \Exception
+     */
+    public function getSerializableEntityArray(ChargifyEntityInterface $entity)
+    {
+        try {
+            $reflect = new \ReflectionClass($entity);
+            return [ $this->decamelize($reflect->getShortName()) => $entity ];
         }
         catch(\Exception $e) {
             throw $e;

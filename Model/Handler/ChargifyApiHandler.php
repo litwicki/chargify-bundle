@@ -6,9 +6,12 @@ use Blameable\Fixture\Document\Type;
 use GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Exception\RequestException;
 use JMS\Serializer\SerializationContext;
 
+use Litwicki\Bundle\ChargifyBundle\LitwickiChargifyBundle;
 use Litwicki\Bundle\ChargifyBundle\Entity\Statement;
 use Litwicki\Bundle\ChargifyBundle\Entity\Subscription;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -74,38 +77,53 @@ class ChargifyApiHandler
 
             $base_uri = sprintf('https://%s.chargify.com', $this->domain);
 
-
-            $full_url = sprintf('%s%s.%s',
-                $base_uri,
-                $uri,
-                $this->format
-            );
-
-            if (!empty($query)) {
-                $uri = sprintf('%s?%s', $uri, http_build_query($query));
-            }
-
             if ($v2) {
                 $auth = array($this->api_secret, $this->api_password);
             } else {
                 $auth = array($this->api_key, 'x');
             }
 
-            $options = array(
-                'base_url' => $base_uri,
-                'auth' => $auth
-            );
+            $options = [
+                'base_uri'        => $base_uri,
+                'handler'         => HandlerStack::create(),
+                'timeout'         => 10,
+                'allow_redirects' => false,
+                'auth'            => $auth,
+                'headers'         => [
+                    'User-Agent'   => 'chargify-bundle/' . LitwickiChargifyBundle::VERSION .' (https://github.com/litwicki/chargify-bundle)',
+                    'Content-Type' => 'application/' . $this->format
+                ]
+            ];
 
             $client = new Client($options);
 
-            $method = strtoupper($method);
+            $method  = strtoupper($method);
+            $path    = ltrim($uri, '/');
+            $path    = $path . '.' . $this->format;
+            $options = [
+                'query' => $query,
+                'body' => null,
+            ];
 
-            $response = $client->request($method, $full_url, $auth, ['verify' => !$this->test_mode]);
+            $request = new Request($method, $path);
 
-            $code = $response->getStatusCode();
+            if (in_array($method, array('POST', 'PUT'))) {
+                if (null === $data) {
+                    throw new BadMethodCallException('You must send raw data in a POST or PUT request');
+                }
+            }
+            if (!empty($data)) {
+                $options['body'] =  Psr7\stream_for($data); //$data;
+            }
 
-            if($code != 200) {
-                throw new \Exception($response->getReasonPhrase());
+            try {
+                $response = $client->send($request, $options);
+            } catch (RequestException $e) {
+                if ($e->hasResponse()) {
+                    $response = $e->getResponse();
+                } else {
+                    $response = false;
+                }
             }
 
             return $response->getBody();
