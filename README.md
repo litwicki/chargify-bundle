@@ -47,12 +47,13 @@ Installation and configuration requires three simple steps.
 
 Optionally, you can include integration for [Chargify Direct](https://docs.chargify.com/api-call) (API V2)
         
-        # app/config/config.yml
-        chargify:
-            direct:
-                api_id: ~
-                api_secret: ~
-                api_password: ~
+    # app/config/config.yml
+    litwicki_chargify:
+        # ...
+        direct:
+            api_id: ~
+            api_secret: ~
+            api_password: ~
 
 ### 4. Serialization
 
@@ -65,12 +66,15 @@ If not, you can do that by [following these instructions](http://symfony.com/doc
         # ...
         serializer:
             enabled: true
-        
-    get_set_method_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
-        tags:
-            - { name: serializer.normalizer }
-            
+
+    # app/config/services.yml
+    services:
+        # ...
+        get_set_method_normalizer:
+            class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+            tags:
+                - { name: serializer.normalizer }
+
 ## Usage
 
 This Bundle functions as a middle-tier layer between your Symfony app and Chargify. The handler for each entity leverages the available RESTful operations available.
