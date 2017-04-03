@@ -1,19 +1,11 @@
 <?php
 
 namespace Litwicki\Bundle\ChargifyBundle\Entity;
-use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Accessor;
-use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\MaxDepth;
-use JMS\Serializer\Annotation\SerializedName;
-use Litwicki\Common\Common;
 use Litwicki\Bundle\ChargifyBundle\Entity\Customer;
 use Litwicki\Bundle\ChargifyBundle\Entity\PaymentProfile;
-
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntity;
 use Litwicki\Bundle\ChargifyBundle\Model\Entity\ChargifyEntityInterface;
 
@@ -26,8 +18,9 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 {
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * The API Handle of the product for which you are creating a subscription.
      * Required, unless a product_id is given instead.
      */
@@ -35,8 +28,9 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * The Product ID of the product for which you are creating a subscription.
      * The product ID is not currently published, so we recommend using the API Handle instead.
      */
@@ -44,20 +38,21 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * The ID of an existing customer within Chargify.
      * Required, unless a customer_reference or a set of customer_attributes is given.
      */
     protected $customer_id;
 
     /**
-     * @type \Litwicki\Bundle\ChargifyBundle\Entity\Customer
+     * @Type("Litwicki\Bundle\ChargifyBundle\Entity\Customer")
      */
     protected $customer;
 
     /**
-     * @type array
+     * @Type("array")
      *   first_name The first name of the customer. Required when creating a customer via attributes.
      *   last_name The last name of the customer. Required when creating a customer via attributes.
      *   email The email address of the customer. Required when creating a customer via attributes.
@@ -75,8 +70,9 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * The reference value (provided by your app) of an existing customer within Chargify.
      * Required, unless a customer_id or a set of customer_attributes is given.
      */
@@ -84,46 +80,54 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Optional but recommended when creating a subscription with ACH) The ACH agreements terms.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The ACH agreements terms.
+     * Optional but recommended when creating a subscription with ACH
      */
     protected $agreement_terms;
 
     /**
      * @Type("boolean")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Optional, used only for Delayed Product Change) When set to true, indicates that a changed value for product_handle
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * When set to true, indicates that a changed value for product_handle
      * should schedule the product change to the next subscription renewal.
+     * Optional, used only for Delayed Product Change
      */
     protected $product_change_delayed;
 
     /**
-     * @type
-     * (optional, see Calendar Billing for more details). Cannot be used when also specifying next_billing_at
+     * @Type("array")
+     * 
+     * Cannot be used when also specifying next_billing_at
+     * Optional, see Calendar Billing for more details.
      */
     protected $calendar_billing;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * A value between 1 and 28, or “end”
      */
     protected $snap_day;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
      */
     protected $ref;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     * 
      * The Payment Profile ID of an existing card or bank account, which belongs to an existing customer to use for payment for this subscription.
      * If the card, bank account, or customer does not exist already, or if you want to use a new (unstored) card or bank account for the subscription,
      * use payment_profile_attributes instead to create a new payment profile along with the subscription. (This value is available on an existing
@@ -133,33 +137,39 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Optional) Supplying the VAT number allows EU customer’s to opt-out of the Value Added Tax assuming the merchant
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Supplying the VAT number allows EU customer’s to opt-out of the Value Added Tax assuming the merchant
      * address and customer billing address are not within the same EU country.
+     * Optional
      */
     protected $vat_number;
 
     /**
      * @Type("boolean")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Optional, default false) When set to true, and when next_billing_at is present, if the subscription expires,
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * When set to true, and when next_billing_at is present, if the subscription expires,
      * the expires_at will be shifted by the same amount of time as the difference between the old and new “next billing” dates.
+     * Optional, default false
      */
     protected $expiration_tracks_next_billing_change;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Optional) Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Set this attribute to a future date/time to sync imported subscriptions to your existing renewal schedule.
      * See the notes on “Date/Time Format” below. If you provide a next_billing_at timestamp that is in the future, no trial
      * or initial charges will be applied when you create the subscription. In fact, no payment will be captured at all.
      * The first payment will be captured, according to the prices defined by the product, near the time specified by next_billing_at.
      * If you do not provide a value for next_billing_at, any trial and/or initial charges will be assessed and charged at the time
      * of subscription creation. If the card cannot be successfully charged, the subscription will not be created. See further notes
      * in the section on Importing Subscriptions.
+     * Optional
      */
     protected $next_billing_at;
 
@@ -169,170 +179,193 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Read Only) Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp for when the subscription began (i.e. when it came out of trial, or when it began in the case of no trial)
+     * Read Only
      */
     protected $activated_at;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Gives the current outstanding subscription balance in the number of cents.
+     * @Groups({"api"})
+     * @Expose
+     *
+     * Gives the current outstanding subscription balance in the number of cents.
      */
     protected $balance_in_cents;
 
     /**
      * @Type("boolean")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     *
      * Whether or not the subscription will (or has) canceled at the end of the period.
      */
     protected $cancel_at_end_of_period;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     *
      * The timestamp of the most recent cancellation
      */
     protected $canceled_at;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     *
      * Seller-provided reason for, or note about, the cancellation.
      */
     protected $cancellation_message;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     *
      * The coupon code of the coupon currently applied to the subscription
      */
     protected $coupon_code;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The creation date for this subscription
+     * @Groups({"api"})
+     * @Expose
+     *
+     * The creation date for this subscription
      */
     protected $created_at;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The vault that stores the payment profile with the provided vault_token.
+     * @Groups({"api"})
+     * @Expose
+     *
+     * The vault that stores the payment profile with the provided vault_token.
      * May be authorizenet, trust_commerce, payment_express, beanstream, braintree1, braintree_blue, paypal, quickpay, eway, samurai, stripe, or wirecard
      */
     protected $current_vault;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  (only for Authorize.Net CIM storage): the customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
+     * @Groups({"api"})
+     * @Expose
+     *
+     * The customerProfileId for the owner of the customerPaymentProfileId provided as the vault_token
+     * only for Authorize.Net CIM storage
      */
     protected $customer_vault_token;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  An integer representing the expiration month of the card(1 – 12)
+     * @Groups({"api"})
+     * @Expose
+     *
+     * An integer representing the expiration month of the card(1 – 12)
      */
     protected $expiration_month;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  An integer representing the 4-digit expiration year of the card(i.e. ‘2012’)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * An integer representing the 4-digit expiration year of the card(i.e. ‘2012’)
      */
     protected $expiration_year;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * A string representation of the credit card number with all but the last 4 digits masked with X’s (i.e. ‘XXXX-XXXX-XXXX-1234’)
      */
     protected $masked_card_number;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The “token” provided by your vault storage for an already stored payment profile
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The “token” provided by your vault storage for an already stored payment profile
      */
     protected $vault_token;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  A string representation of the stored bank account number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * A string representation of the stored bank account number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
      */
     protected $masked_bank_account_number;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * A string representation of the stored bank routing number with all but the last 4 digits marked with X’s (i.e. ‘XXXXXXX1111’)
      */
     protected $masked_bank_routing_number;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
+     * @Groups({"api"})
+     * @Expose
+     *
      * Will be bank_account
      */
     protected $payment_type;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp relating to the start of the current (recurring) period
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp relating to the start of the current (recurring) period
      */
     protected $current_period_started_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp relating to the end of the current (recurring) period (i.e. when the next regularly scheduled attempted charge will occur)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp relating to the end of the current (recurring) period (i.e. when the next regularly scheduled attempted charge will occur)
      */
     protected $current_period_ends_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp for when the subscription is currently set to cancel.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp for when the subscription is currently set to cancel.
      */
     protected $delayed_cancel_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp giving the expiration date of this subscription (if any)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp giving the expiration date of this subscription (if any)
      */
     protected $expires_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp that indicates when capture of payment will be tried or retried.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp that indicates when capture of payment will be tried or retried.
      * This value will usually track the current_period_ends_at, but will diverge if a renewal payment fails and must be retried.
      * In that case, the current_period_ends_at will advance to the end of the next period (time doesn’t stop because a payment was missed)
      * but the next_assessment_at will be scheduled for the auto-retry time (i.e. 24 hours in the future, in some cases)
@@ -341,26 +374,30 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The type of payment collection to be used in the subscription. May be automatic, or invoice.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The type of payment collection to be used in the subscription. May be automatic, or invoice.
      */
     protected $payment_collection_method;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Only valid for webhook payloads The previous state for webhooks that have indicated a change in state.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Only valid for webhook payloads The previous state for webhooks that have indicated a change in state.
      * For normal API calls, this will always be the same as the state (current state)
      */
     protected $previous_state;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Added Nov 5 2013) The recurring amount of the product (and version) currently subscribed.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Added Nov 5 2013
+     * The recurring amount of the product (and version) currently subscribed.
      * NOTE: this may differ from the current price of the product, if you’ve changed the price of the product
      * but haven’t moved this subscription to a newer version.
      */
@@ -368,9 +405,11 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     * (Added Nov 5 2013) The version of the product currently subscribed.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Added Nov 5 2013
+     * The version of the product currently subscribed.
      * NOTE: we have not exposed versions (yet) elsewhere in the API, but if you change the price of your product
      * the versions will increment and existing subscriptions will remain on prior versions (by default, to support price grandfathering).
      */
@@ -378,65 +417,73 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The ID of the transaction that generated the revenue
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The ID of the transaction that generated the revenue
      */
     protected $signup_payment_id;
 
     /**
      * @Type("float")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The revenue, formatted as a string of decimal separated dollars and cents, from the subscription signup ($50.00 would be formatted as 50.00)
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The revenue, formatted as a string of decimal separated dollars and cents, from the subscription signup ($50.00 would be formatted as 50.00)
      */
     protected $signup_revenue;
 
     /**
      * @Type("string")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The current state of the subscription. Please see the documentation for Subscription States
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The current state of the subscription. Please see the documentation for Subscription States
      */
     protected $state;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Gives the total revenue from the subscription in the number of cents.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Gives the total revenue from the subscription in the number of cents.
      */
     protected $total_revenue_in_cents;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp for when the trial period (if any) began
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp for when the trial period (if any) began
      */
     protected $trial_started_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  Timestamp for when the trial period (if any) ended
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * Timestamp for when the trial period (if any) ended
      */
     protected $trial_ended_at;
 
     /**
      * @Type("datetime")
-	 * @Groups({"api"})
-	 * @Expose
-     *  The date of last update for this subscription
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * The date of last update for this subscription
      */
     protected $updated_at;
 
     /**
      * @Type("integer")
-	 * @Groups({"api"})
-	 * @Expose
-     *  If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal.
+     * @Groups({"api"})
+     * @Expose
+     * 
+     * If a delayed product change is scheduled, the ID of the product that the subscription will be changed to at the next renewal.
      */
     protected $next_product_id;
 
@@ -845,22 +892,7 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
      */
     public function setCustomer(Customer $customer)
     {
-
         $this->customer = $customer;
-
-        /**
-         * Convert the Customer object to the customer_attributes array.
-         * Unless this is an existing object, then simply pass $customer_id
-         */
-        if($customer->getId()) {
-            $this->customer_id = $customer->getId();
-        }
-        else {
-            $serializer = new Serializer();
-            $json = $serializer->serialize($customer, 'json');
-            $this->customer_attributes = json_decode($json, true);
-        }
-
     }
 
     /**
@@ -884,24 +916,7 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
      */
     public function setPaymentProfile(PaymentProfile $payment_profile)
     {
-        /**
-         * Convert the PaymentProfile to the payment_profile_attributes array.
-         * Unless this is an existing object, then simply pass $payment_profile_id
-         */
         $this->payment_profile = $payment_profile;
-
-        /**
-         * Convert the Customer object to the customer_attributes array.
-         * Unless this is an existing object, then simply pass $customer_id
-         */
-        if($payment_profile->getId()) {
-            $this->payment_profile_id = $payment_profile->getId();
-        }
-        else {
-            $serializer = new Serializer();
-            $json = $serializer->serialize($payment_profile, 'json');
-            $this->payment_profile_attributes = json_decode($json, true);
-        }
     }
 
     /**
@@ -966,6 +981,14 @@ class Subscription extends ChargifyEntity implements ChargifyEntityInterface
     public function setCustomerReference($customer_reference)
     {
         $this->customer_reference = $customer_reference;
+    }
+
+    /**
+     * @param mixed $customer_reference
+     */
+    public function setCustomerAttributes($customer_attributes)
+    {
+        $this->customer_attributes = $customer_attributes;
     }
 
     /**
