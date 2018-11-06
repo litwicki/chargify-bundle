@@ -133,7 +133,3 @@ Thank you for considering contributing to this bundle! This bundle is in early d
 ## License
 
 This bundle is open-sourced software licensed under the MIT license.
-
-### Thanks
-
-This bundle is developed and sponsored by the team at [Zoadilack](http://www.zoadilack.com).
